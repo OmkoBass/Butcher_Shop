@@ -1,0 +1,60 @@
+<div
+  class="super-center"
+  style="height: 100%; width: 100%; background-color: lightgray"
+>
+  <mat-card class="login-card">
+    <h1>Login</h1>
+    <img src="../../assets/Logo.png" style="width:100%; height: 100%"/>
+    <mat-divider></mat-divider>
+    <form
+      [formGroup]="loginForm"
+      style="display: flex; flex-direction: column; margin-top: 2em"
+    >
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input type="text" matInput formControlName="username" />
+
+        <mat-error *ngIf="username?.touched && username?.invalid"> That doesn't seem right </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="passwordVisible = !passwordVisible"
+        >
+          <mat-icon>{{
+            passwordVisible ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </button>
+        <mat-label>Password</mat-label>
+        <input
+          [type]="passwordVisible ? 'text' : 'password'"
+          matInput
+          formControlName="password"
+        />
+
+        <mat-error *ngIf="password?.touched && password?.invalid">
+          That's not a valid password
+        </mat-error>
+      </mat-form-field>
+
+      <div>
+        <mat-hint
+          >Don't have an account ?
+          <a routerLink="/register"> Register now! </a></mat-hint
+        >
+      </div>
+
+      <span style="margin: 18px 0 0 0">
+        <button
+          [disabled]="loginForm.invalid"
+          mat-raised-button
+          color="primary"
+        >
+          Login
+        </button>
+      </span>
+    </form>
+  </mat-card>
+</div>
