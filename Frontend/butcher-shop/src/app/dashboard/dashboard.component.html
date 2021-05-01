@@ -1,1 +1,46 @@
-<p>dashboard works!</p>
+<mat-toolbar color="primary">
+    <button
+      (click)="opened = !opened"
+      mat-icon-button
+      aria-label="Example icon-button with menu icon"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+    <img src="../../assets/Logo.png" style="height: 100%; margin-left: 1em;"/>
+  </mat-toolbar>
+  <mat-sidenav-container autosize style="height: 93.4vh">
+    <mat-sidenav mode="over" [(opened)]="opened">
+      <mat-nav-list>
+        <a mat-list-item> 
+            <h4 matLine>
+                Stores
+            </h4>
+            <img matListIcon src="../../assets/meat_64.png"/>
+        </a>
+
+        <mat-divider></mat-divider>
+
+        <a mat-list-item>
+            <h4 matLine>
+                Statistics
+            </h4>
+            <img matListIcon src="../../assets/storage_64.png" />
+        </a>
+  
+        <a
+          mat-list-item
+          routerLink="/login"
+          routerLinkActive="router-link-active"
+          style="position: absolute; bottom: 0"
+        >
+            <mat-icon matListIcon>logout</mat-icon>
+            <h4 matLine>
+                Logout
+            </h4>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
