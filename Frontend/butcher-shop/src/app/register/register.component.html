@@ -1,0 +1,102 @@
+  
+<div
+class="super-center"
+style="width: 100%; height: 100%; background-color: lightgray"
+>
+<mat-card class="register-card">
+  <h1>Register</h1>
+  <img src="../../assets/Logo.png" style="width:100%; height: 100%"/>
+  <form
+    [formGroup]="registerForm"
+    style="display: flex; flex-direction: column; margin-top: 2em"
+  >
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input type="name" matInput formControlName="name" />
+
+      <mat-error *ngIf="name?.touched && name?.invalid"> That's not a legal name </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input type="username" matInput formControlName="username" />
+
+      <mat-error *ngIf="username?.touched && username?.invalid">
+        Choose a different username
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="passwordVisible = !passwordVisible"
+      >
+        <mat-icon>{{
+          passwordVisible ? "visibility_off" : "visibility"
+        }}</mat-icon>
+      </button>
+
+      <mat-label>Password</mat-label>
+      <input
+        [type]="passwordVisible ? 'text' : 'password'"
+        matInput
+        formControlName="password"
+      />
+
+      <mat-error *ngIf="password?.touched && password?.invalid">
+        That's not a valid password
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="repeatPasswordVisible = !repeatPasswordVisible"
+      >
+        <mat-icon>{{
+          repeatPasswordVisible ? "visibility_off" : "visibility"
+        }}</mat-icon>
+      </button>
+
+      <mat-label>Repeat password</mat-label>
+      <input
+        [type]="repeatPasswordVisible ? 'text' : 'password'"
+        matInput
+        formControlName="repeatPassword"
+      />
+
+      <mat-error *ngIf="repeatPassword?.touched">
+        Passwords don't match!
+      </mat-error>
+    </mat-form-field>
+
+    <div>
+      <mat-checkbox formControlName="terms">
+        Agree to the terms
+      </mat-checkbox>
+
+      <mat-error *ngIf="terms?.invalid && terms?.touched">
+        You must agree to create an account!
+      </mat-error>
+    </div>
+
+    <div style="margin: 18px 0">
+      <mat-hint
+        >Already a member ? <a routerLink="/login"> Login! </a></mat-hint
+      >
+    </div>
+
+    <span>
+      <button
+        [disabled]="registerForm.invalid"
+        mat-raised-button
+        color="primary"
+      >
+        Login
+      </button>
+    </span>
+  </form>
+</mat-card>
+</div>
