@@ -1,4 +1,6 @@
-﻿using Butcher_Shop.Data.ButcherRepo;
+﻿using AutoMapper;
+using Butcher_Shop.Data.ButcherRepo;
+using Butcher_Shop.Dtos;
 using Butcher_Shop.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,12 +17,19 @@ namespace Butcher_Shop.Controllers
     public class ButcherController : ControllerBase
     {
         private readonly IButcherRepo _butcherRepo;
-        public ButcherController(IButcherRepo butcherRepo) => _butcherRepo = butcherRepo;
+        private readonly IMapper _mapper;
+        public ButcherController(IButcherRepo butcherRepo, IMapper mapper)
+        {
+            _butcherRepo = butcherRepo;
+            _mapper = mapper;
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetAllButchers()
         {
-            return Ok(await _butcherRepo.GetAllButchers());
+            var AllButchers = await _butcherRepo.GetAllButchers();
+
+            return Ok(_mapper.Map<List<ButcherDto>>(AllButchers));
         }
 
         [HttpGet("id")]
@@ -30,7 +39,7 @@ namespace Butcher_Shop.Controllers
 
             if(Butcher != null)
             {
-                return Ok(Butcher);
+                return Ok(_mapper.Map<ButcherDto>(Butcher));
             }
 
             return NotFound(new { Message = $"Butcher with Id:{Id} not found!" });
@@ -84,7 +93,7 @@ namespace Butcher_Shop.Controllers
                 return Ok(new { Message = "Butcher deleted!" });
             }
 
-            return BadRequest(new { Message = "Something went wrong!" });
+            return NotFound(new { Message = "Butcher not found!" });
         }
     }
 }
