@@ -41,7 +41,7 @@ namespace Butcher_Shop.Data.ButcherRepo
 
         public async Task<List<Butcher>> GetAllButchers()
         {
-            return await _context.Butchers.ToListAsync();
+            return await _context.Butchers.Include(b => b.ButcherStores).ToListAsync();
         }
 
         public async Task<Butcher> GetButcher(int Id)
@@ -50,7 +50,7 @@ namespace Butcher_Shop.Data.ButcherRepo
 
             if (FoundButcher != null)
             {
-                return await _context.Butchers.FindAsync(Id);
+                return await _context.Butchers.Include(b => b.ButcherStores).FirstOrDefaultAsync(i => i.Id == Id);
             }
 
             return null;
