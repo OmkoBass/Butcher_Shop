@@ -1,5 +1,6 @@
 using Butcher_Shop.Data;
 using Butcher_Shop.Data.ButcherRepo;
+using Butcher_Shop.Data.ButcherStoreRepo;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,7 +32,10 @@ namespace Butcher_Shop
         {
             services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnection")));
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddScoped<IButcherRepo, MockButcherRepo>();
+            services.AddScoped<IButcherStoreRepo, MockButcherStoreRepo>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
