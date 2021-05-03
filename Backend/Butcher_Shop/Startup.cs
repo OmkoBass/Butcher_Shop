@@ -1,6 +1,8 @@
 using Butcher_Shop.Data;
+using Butcher_Shop.Data.ArticleRepo;
 using Butcher_Shop.Data.ButcherRepo;
 using Butcher_Shop.Data.ButcherStoreRepo;
+using Butcher_Shop.Data.StorageRepo;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,6 +38,8 @@ namespace Butcher_Shop
 
             services.AddScoped<IButcherRepo, MockButcherRepo>();
             services.AddScoped<IButcherStoreRepo, MockButcherStoreRepo>();
+            services.AddScoped<IStorageRepo, MockStorageRepo>();
+            services.AddScoped<IArticleRepo, MockArticleRepo>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
