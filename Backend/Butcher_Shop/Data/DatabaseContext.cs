@@ -16,6 +16,9 @@ namespace Butcher_Shop.Data
 
         public DbSet<Butcher> Butchers { get; set; }
         public DbSet<ButcherStore> ButcherStores { get; set; }
+        public DbSet<Storage> Storages { get; set; }
+        public DbSet<Article> Articles { get; set; }
+        public DbSet<StorageArticle> StorageArticles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +27,10 @@ namespace Butcher_Shop.Data
                 .WithMany(Butcher => Butcher.ButcherStores)
                 .HasForeignKey(ButcherStore => ButcherStore.ButcherId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Butcher>(Butcher => Butcher.HasIndex(b => b.Username).IsUnique());
+
+            modelBuilder.Entity<StorageArticle>().HasKey(sa => new { sa.StorageId, sa.ArticleId });
         }
     }
 }
