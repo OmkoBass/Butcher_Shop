@@ -3,14 +3,16 @@ using Butcher_Shop.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Butcher_Shop.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20210503095647_StorageArticle")]
+    partial class StorageArticle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,7 +34,7 @@ namespace Butcher_Shop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Articles");
+                    b.ToTable("Article");
                 });
 
             modelBuilder.Entity("Butcher_Shop.Models.Butcher", b =>
@@ -113,7 +115,7 @@ namespace Butcher_Shop.Migrations
 
                     b.HasIndex("ButcherStoreId");
 
-                    b.ToTable("Storages");
+                    b.ToTable("Storage");
                 });
 
             modelBuilder.Entity("Butcher_Shop.Models.StorageArticle", b =>
@@ -131,7 +133,7 @@ namespace Butcher_Shop.Migrations
 
                     b.HasIndex("ArticleId");
 
-                    b.ToTable("StorageArticles");
+                    b.ToTable("StorageArticle");
                 });
 
             modelBuilder.Entity("Butcher_Shop.Models.ButcherStore", b =>
