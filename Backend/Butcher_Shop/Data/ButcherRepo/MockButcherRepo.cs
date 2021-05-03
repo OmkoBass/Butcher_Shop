@@ -14,7 +14,7 @@ namespace Butcher_Shop.Data.ButcherRepo
 
         public async Task<Butcher> AddButcher(Butcher Butcher)
         {
-            var AddedButcher = await _context.AddAsync(Butcher);
+            var AddedButcher = await _context.Butchers.AddAsync(Butcher);
 
             if (AddedButcher != null)
             {
@@ -56,9 +56,9 @@ namespace Butcher_Shop.Data.ButcherRepo
             return null;
         }
 
-        public async Task<Butcher> UpdateButcher(Butcher Butcher)
+        public async Task<Butcher> UpdateButcher(int ButcherId, Butcher Butcher)
         {
-            var FoundButcher = await _context.Butchers.FindAsync(Butcher.Id);
+            var FoundButcher = await _context.Butchers.FindAsync(ButcherId);
 
             if (FoundButcher != null)
             {
