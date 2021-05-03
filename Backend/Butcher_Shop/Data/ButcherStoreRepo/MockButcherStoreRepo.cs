@@ -56,7 +56,7 @@ namespace Butcher_Shop.Data.ButcherStoreRepo
             return null;
         }
 
-        public async Task<ButcherStore> UpdateButcherStore(ButcherStore ButcherStore)
+        public async Task<ButcherStore> UpdateButcherStore(int Id, ButcherStore ButcherStore)
         {
             var FoundButcherStore = await _context.ButcherStores.FindAsync(ButcherStore.Id);
 
