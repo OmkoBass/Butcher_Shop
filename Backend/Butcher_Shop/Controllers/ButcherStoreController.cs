@@ -1,4 +1,6 @@
-﻿using Butcher_Shop.Data.ButcherStoreRepo;
+﻿using AutoMapper;
+using Butcher_Shop.Data.ButcherStoreRepo;
+using Butcher_Shop.Dtos;
 using Butcher_Shop.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,19 +15,21 @@ namespace Butcher_Shop.Controllers
     public class ButcherStoreController : ControllerBase
     {
         private readonly IButcherStoreRepo _butcherStoreRepo;
-        public ButcherStoreController(IButcherStoreRepo butcherStoreRepo)
+        private readonly IMapper _mapper;
+        public ButcherStoreController(IButcherStoreRepo butcherStoreRepo, IMapper mapper)
         {
             _butcherStoreRepo = butcherStoreRepo;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAllButcherStores()
         {
             return Ok(await _butcherStoreRepo.GetAllButcherStores());
         }
 
         [HttpGet("id")]
-        public async Task<IActionResult> Get(int Id)
+        public async Task<IActionResult> GetButcherStore(int Id)
         {
             var ButcherStore = await _butcherStoreRepo.GetButcherStore(Id);
 
@@ -58,11 +62,11 @@ namespace Butcher_Shop.Controllers
         }
 
         [HttpPut("id")]
-        public async Task<IActionResult> Put(int id, [FromBody] ButcherStore ButcherStore)
+        public async Task<IActionResult> Put(int Id, [FromBody] ButcherStore ButcherStore)
         {
             if (ModelState.IsValid)
             {
-                var UpdatedButcherStore = await _butcherStoreRepo.UpdateButcherStore(ButcherStore);
+                var UpdatedButcherStore = await _butcherStoreRepo.UpdateButcherStore(Id, ButcherStore);
 
                 if (UpdatedButcherStore != null)
                 {
