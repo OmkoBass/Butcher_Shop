@@ -8,8 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Butcher_Shop.Controllers
 {
     [Route("api/[controller]")]
@@ -47,11 +45,11 @@ namespace Butcher_Shop.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Butcher Butcher)
+        public async Task<IActionResult> Post([FromBody] ButcherDto Butcher)
         {
             if (ModelState.IsValid)
             {
-                var AddedButcher = await _butcherRepo.AddButcher(Butcher);
+                var AddedButcher = await _butcherRepo.AddButcher(_mapper.Map<Butcher>(Butcher));
 
                 if (AddedButcher != null)
                 {
@@ -62,7 +60,7 @@ namespace Butcher_Shop.Controllers
                 }
             }
 
-            return BadRequest(new { Message = "Something went wrong!" });
+            return BadRequest(new { Message = "Not valid!" });
         }
 
         [HttpPut("id")]
@@ -70,7 +68,7 @@ namespace Butcher_Shop.Controllers
         {
             if (ModelState.IsValid)
             {
-                var UpdatedButcher = await _butcherRepo.UpdateButcher(Butcher);
+                var UpdatedButcher = await _butcherRepo.UpdateButcher(Id, Butcher);
 
                 if(UpdatedButcher != null)
                 {
@@ -80,7 +78,7 @@ namespace Butcher_Shop.Controllers
                 return BadRequest(new { Message = "Something went wrong!" });
             }
 
-            return BadRequest(new { Message = "Something went wrong!" });
+            return BadRequest(new { Message = "Not valid!" });
         }
 
         [HttpDelete("id")]
