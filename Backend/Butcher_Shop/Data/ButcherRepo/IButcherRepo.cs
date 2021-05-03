@@ -11,7 +11,7 @@ namespace Butcher_Shop.Data.ButcherRepo
         public Task<List<Butcher>> GetAllButchers();
         public Task<Butcher> GetButcher(int Id);
         public Task<Butcher> AddButcher(Butcher Butcher);
-        public Task<Butcher> UpdateButcher(Butcher Butcher);
+        public Task<Butcher> UpdateButcher(int Id, Butcher Butcher);
         public Task<bool> DeleteButcher(int Id);
     }
 }
