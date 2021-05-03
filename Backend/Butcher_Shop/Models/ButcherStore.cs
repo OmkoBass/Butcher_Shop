@@ -9,8 +9,6 @@ namespace Butcher_Shop.Models
 {
     public class ButcherStore
     {
-        public ButcherStore() => this.Storages = new HashSet<Storage>();
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -27,8 +25,6 @@ namespace Butcher_Shop.Models
 
         [Range(0, Int32.MaxValue)]
         public int Area { get; set; }
-
-        public virtual ICollection<Storage> Storages { get; set; }
 
         public int ButcherId { get; set; }
         public virtual Butcher Butcher { get; set; }
