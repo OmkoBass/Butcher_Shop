@@ -25,7 +25,7 @@ namespace Butcher_Shop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Naziv")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
@@ -57,6 +57,9 @@ namespace Butcher_Shop.Migrations
                         .HasColumnType("nvarchar(16)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Butchers");
                 });
@@ -148,7 +151,7 @@ namespace Butcher_Shop.Migrations
             modelBuilder.Entity("Butcher_Shop.Models.Storage", b =>
                 {
                     b.HasOne("Butcher_Shop.Models.ButcherStore", "ButcherStore")
-                        .WithMany("Storages")
+                        .WithMany()
                         .HasForeignKey("ButcherStoreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -183,11 +186,6 @@ namespace Butcher_Shop.Migrations
             modelBuilder.Entity("Butcher_Shop.Models.Butcher", b =>
                 {
                     b.Navigation("ButcherStores");
-                });
-
-            modelBuilder.Entity("Butcher_Shop.Models.ButcherStore", b =>
-                {
-                    b.Navigation("Storages");
                 });
 
             modelBuilder.Entity("Butcher_Shop.Models.Storage", b =>
