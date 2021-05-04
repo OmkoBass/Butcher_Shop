@@ -19,6 +19,7 @@ namespace Butcher_Shop.Data
         public DbSet<Storage> Storages { get; set; }
         public DbSet<Article> Articles { get; set; }
         public DbSet<StorageArticle> StorageArticles { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
