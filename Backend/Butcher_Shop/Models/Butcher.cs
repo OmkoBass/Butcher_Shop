@@ -25,7 +25,7 @@ namespace Butcher_Shop.Models
 
         [Required]
         [MinLength(8)]
-        [MaxLength(16)]
+        [MaxLength(64)]
         public string Password { get; set; }
 
         public ICollection<ButcherStore> ButcherStores { get; set; }
