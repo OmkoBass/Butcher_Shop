@@ -44,6 +44,18 @@ namespace Butcher_Shop.Data.ButcherStoreRepo
             return await _context.ButcherStores.ToListAsync();
         }
 
+        public async Task<List<ButcherStore>> GetAllButcherStoresByButcher(int Id)
+        {
+            var FoundButcher = await _context.Butchers.FindAsync(Id);
+
+            if(FoundButcher != null)
+            {
+                return await _context.ButcherStores.Where(bs => bs.ButcherId == Id).ToListAsync();
+            }
+
+            return null;
+        }
+
         public async Task<ButcherStore> GetButcherStore(int Id)
         {
             var FoundButcherStore = await _context.ButcherStores.FindAsync(Id);
@@ -58,14 +70,12 @@ namespace Butcher_Shop.Data.ButcherStoreRepo
 
         public async Task<ButcherStore> UpdateButcherStore(int Id, ButcherStore ButcherStore)
         {
-            var FoundButcherStore = await _context.ButcherStores.FindAsync(ButcherStore.Id);
-
-            if (FoundButcherStore != null)
+            if (Id == ButcherStore.Id)
             {
-                var UpdatedButcherStores = _context.ButcherStores.Update(FoundButcherStore);
+                var UpdatedButcherStore = _context.ButcherStores.Update(ButcherStore);
                 await _context.SaveChangesAsync();
 
-                return UpdatedButcherStores.Entity;
+                return UpdatedButcherStore.Entity;
             }
 
             return null;

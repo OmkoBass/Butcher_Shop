@@ -41,6 +41,19 @@ namespace Butcher_Shop.Controllers
             return NotFound(new { Message = $"Butcher Store with Id:{Id} not found!" });
         }
 
+        [HttpGet("ButcherId")]
+        public async Task<IActionResult> GetButcherStoreByButcher(int ButcherId)
+        {
+            var ButcherStores = await _butcherStoreRepo.GetAllButcherStoresByButcher(ButcherId);
+
+            if (ButcherStores != null)
+            {
+                return Ok(_mapper.Map<List<ButcherStoreDto>>(ButcherStores));
+            }
+
+            return NotFound(new { Message = $"Butcher Store with Butcher Id:{ButcherId} not found!" });
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] ButcherStore ButcherStore)
         {
@@ -64,7 +77,7 @@ namespace Butcher_Shop.Controllers
         [HttpPut("id")]
         public async Task<IActionResult> Put(int Id, [FromBody] ButcherStore ButcherStore)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && (Id == ButcherStore.Id))
             {
                 var UpdatedButcherStore = await _butcherStoreRepo.UpdateButcherStore(Id, ButcherStore);
 
@@ -76,7 +89,7 @@ namespace Butcher_Shop.Controllers
                 return BadRequest(new { Message = "Something went wrong!" });
             }
 
-            return BadRequest(new { Message = "Something went wrong!" });
+            return BadRequest(new { Message = "Not valid!" });
         }
 
         [HttpDelete("id")]
