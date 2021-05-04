@@ -58,17 +58,10 @@ namespace Butcher_Shop.Data.ButcherRepo
 
         public async Task<Butcher> UpdateButcher(int ButcherId, Butcher Butcher)
         {
-            var FoundButcher = await _context.Butchers.FindAsync(ButcherId);
+            var UpdatedButcher = _context.Butchers.Update(Butcher);
+            await _context.SaveChangesAsync();
 
-            if (FoundButcher != null)
-            {
-                var UpdatedButcher = _context.Butchers.Update(FoundButcher);
-                await _context.SaveChangesAsync();
-
-                return UpdatedButcher.Entity;
-            }
-
-            return null;
+            return UpdatedButcher.Entity;
         }
     }
 }

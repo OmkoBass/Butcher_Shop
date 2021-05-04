@@ -66,7 +66,7 @@ namespace Butcher_Shop.Controllers
         [HttpPut("id")]
         public async Task<IActionResult> Put(int Id, [FromBody] Butcher Butcher)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && (Id == Butcher.Id))
             {
                 var UpdatedButcher = await _butcherRepo.UpdateButcher(Id, Butcher);
 

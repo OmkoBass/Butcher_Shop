@@ -12,7 +12,7 @@ namespace Butcher_Shop.Profiles
     {
         public ButcherProfile()
         {
-            CreateMap<Butcher, ButcherDto>();
+            CreateMap<Butcher, ButcherDto>().ReverseMap();
         }
     }
 }
