@@ -12,7 +12,7 @@ namespace Butcher_Shop.Profiles
     {
         public StorageProfile()
         {
-            CreateMap<Storage, StorageDto>();
+            CreateMap<Storage, StorageDto>().ReverseMap();
         }
     }
 }

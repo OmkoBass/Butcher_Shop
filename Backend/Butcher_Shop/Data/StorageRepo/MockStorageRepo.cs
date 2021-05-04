@@ -63,7 +63,7 @@ namespace Butcher_Shop.Data.StorageRepo
 
             if (FoundStorage != null)
             {
-                var UpdatedStorage = _context.Storages.Update(FoundStorage);
+                var UpdatedStorage = _context.Storages.Update(Storage);
                 await _context.SaveChangesAsync();
 
                 return UpdatedStorage.Entity;

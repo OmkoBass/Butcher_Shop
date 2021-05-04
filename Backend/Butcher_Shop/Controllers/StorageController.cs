@@ -44,11 +44,11 @@ namespace Butcher_Shop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Storage Storage)
+        public async Task<IActionResult> Post([FromBody] StorageDto StorageDto)
         {
             if (ModelState.IsValid)
             {
-                var AddedStorage = await _storageRepo.AddStorage(_mapper.Map<Storage>(Storage));
+                var AddedStorage = await _storageRepo.AddStorage(_mapper.Map<Storage>(StorageDto));
 
                 if (AddedStorage != null)
                 {
