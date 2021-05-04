@@ -11,8 +11,8 @@ namespace Butcher_Shop.Models
     {
         public enum JobType
         {
-            Cashier,
-            Administration
+            Cashier = 0,
+            Administration = 1
         }
 
         [Key]
