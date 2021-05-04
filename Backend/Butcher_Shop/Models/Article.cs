@@ -18,7 +18,7 @@ namespace Butcher_Shop.Models
         [Required]
         [MinLength(3)]
         [MaxLength(64)]
-        public string Naziv { get; set; }
+        public string Name { get; set; }
 
         public virtual ICollection<StorageArticle> StorageArticles { get; set; }
     }
