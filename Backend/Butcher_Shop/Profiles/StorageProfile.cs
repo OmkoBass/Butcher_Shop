@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Butcher_Shop.Dtos;
+using Butcher_Shop.Dtos.Storage;
 using Butcher_Shop.Models;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace Butcher_Shop.Profiles
         public StorageProfile()
         {
             CreateMap<Storage, StorageDto>().ReverseMap();
+            CreateMap<Storage, AddStorageDto>().ReverseMap();
         }
     }
 }
