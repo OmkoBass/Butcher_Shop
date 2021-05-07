@@ -31,6 +31,8 @@ namespace Butcher_Shop.Data
 
             modelBuilder.Entity<Butcher>(Butcher => Butcher.HasIndex(b => b.Username).IsUnique());
 
+            modelBuilder.Entity<Article>(Article => Article.HasIndex(a => a.Name).IsUnique());
+
             modelBuilder.Entity<StorageArticle>().HasKey(sa => new { sa.StorageId, sa.ArticleId });
         }
     }
