@@ -41,6 +41,5 @@ namespace Butcher_Shop.Models
 
         [Required]
         public int ButcherStoreId { get; set; }
-        public virtual ButcherStore ButcherStore { get; set; }
     }
 }
