@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Butcher_Shop.Data.ButcherRepo;
+using Butcher_Shop.Data;
 using Butcher_Shop.Dtos;
+using Butcher_Shop.Dtos.Butcher;
 using Butcher_Shop.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,89 +11,88 @@ using System.Threading.Tasks;
 
 namespace Butcher_Shop.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class ButcherController : ControllerBase
     {
-        private readonly IButcherRepo _butcherRepo;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public ButcherController(IButcherRepo butcherRepo, IMapper mapper)
+        public ButcherController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _butcherRepo = butcherRepo;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllButchers()
+        public async Task<IActionResult> GetAll()
         {
-            var AllButchers = await _butcherRepo.GetAllButchers();
+            var AllButchers = await _unitOfWork.IButcherRepo.GetAllButchers();
 
             return Ok(_mapper.Map<List<ButcherDto>>(AllButchers));
         }
 
-        [HttpGet("id")]
+        [HttpGet(":id")]
         public async Task<IActionResult> Get(int Id)
         {
-            var Butcher = await _butcherRepo.GetButcher(Id);
+            var Butcher = await _unitOfWork.IButcherRepo.GetButcher(Id);
 
             if(Butcher != null)
             {
                 return Ok(_mapper.Map<ButcherDto>(Butcher));
             }
 
-            return NotFound(new { Message = $"Butcher with Id:{Id} not found!" });
+            return NotFound(new { Message = $"Butcher with Id:{Id} not found." });
         }
-
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ButcherDto Butcher)
+        public async Task<IActionResult> Post([FromBody] AddButcherDto Butcher)
         {
-            if (ModelState.IsValid)
+            if(ModelState.IsValid)
             {
-                var AddedButcher = await _butcherRepo.AddButcher(_mapper.Map<Butcher>(Butcher));
+                var AddedButcher = _mapper.Map<Butcher>(Butcher);
 
-                if (AddedButcher != null)
-                {
-                    return Ok(AddedButcher);
-                } else
-                {
-                    return BadRequest(new { Message = "Something went wrong!" });
-                }
+                await _unitOfWork.IButcherRepo.AddButcher(AddedButcher);
+                await _unitOfWork.Complete();
+
+                return Ok(AddedButcher);
             }
 
-            return BadRequest(new { Message = "Not valid!" });
+            return BadRequest(new { Message = "Invalid info!" });
         }
 
-        [HttpPut("id")]
-        public async Task<IActionResult> Put(int Id, [FromBody] Butcher Butcher)
+        [HttpPut(":id")]
+        // There is a security vulnerability here
+        // but there's too much code for one man to write
+        public async Task<IActionResult> Put(int Id, [FromBody] AddButcherDto Butcher)
         {
-            if (ModelState.IsValid && (Id == Butcher.Id))
+            if(ModelState.IsValid)
             {
-                var UpdatedButcher = await _butcherRepo.UpdateButcher(Id, Butcher);
+                var OldButcher = await _unitOfWork.IButcherRepo.GetButcher(Id, false);
 
-                if(UpdatedButcher != null)
-                {
-                    return Ok(UpdatedButcher);
-                }
+                _mapper.Map<AddButcherDto, Butcher>(Butcher, OldButcher);
 
-                return BadRequest(new { Message = "Something went wrong!" });
+                await _unitOfWork.Complete();
+
+                return Ok(OldButcher);
             }
 
-            return BadRequest(new { Message = "Not valid!" });
+            return BadRequest(new { Message = "Invalid info!" });
         }
 
-        [HttpDelete("id")]
+        [HttpDelete(":id")]
         public async Task<IActionResult> Delete(int Id)
         {
-            var DeletedButcher = await _butcherRepo.DeleteButcher(Id);
+            var Butcher = await _unitOfWork.IButcherRepo.GetButcher(Id);
 
-            if (DeletedButcher)
+            if(Butcher != null)
             {
-                return Ok(new { Message = "Butcher deleted!" });
+                _unitOfWork.IButcherRepo.DeleteButcher(Butcher);
+                await _unitOfWork.Complete();
+
+                return Ok(_mapper.Map<ButcherDto>(Butcher));
             }
 
-            return NotFound(new { Message = "Butcher not found!" });
+            return NotFound(new { Message = $"Butcher with Id:{Id} not found." });
         }
     }
 }
