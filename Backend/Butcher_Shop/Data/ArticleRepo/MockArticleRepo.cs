@@ -13,31 +13,16 @@ namespace Butcher_Shop.Data.ArticleRepo
 
         public MockArticleRepo(DatabaseContext context) => _context = context;
 
-        public async Task<Article> AddArticle(Article Article)
+        public async Task<bool> AddArticle(Article Article)
         {
-            var AddedArticle = await _context.Articles.AddAsync(Article);
-
-            if (AddedArticle != null)
-            {
-                await _context.SaveChangesAsync();
-                return AddedArticle.Entity;
-            }
-            return null;
+            await _context.Articles.AddAsync(Article);
+            return true;
         }
 
-        public async Task<bool> DeleteArticle(int Id)
+        public bool DeleteArticle(Article Article)
         {
-            var FoundArticle = await _context.Articles.FindAsync(Id);
-
-            if (FoundArticle != null)
-            {
-                _context.Articles.Remove(FoundArticle);
-                await _context.SaveChangesAsync();
-
-                return true;
-            }
-
-            return false;
+            _context.Articles.Remove(Article);
+            return true;
         }
 
         public async Task<List<Article>> GetAllArticles()
@@ -47,29 +32,13 @@ namespace Butcher_Shop.Data.ArticleRepo
 
         public async Task<Article> GetArticle(int Id)
         {
-            var FoundArticle = await _context.Articles.FindAsync(Id);
-
-            if (FoundArticle != null)
-            {
-                return FoundArticle;
-            }
-
-            return null;
+            return await _context.Articles.FirstOrDefaultAsync(i => i.Id == Id);
         }
 
-        public async Task<Article> UpdateArticle(Article Article)
+        public bool UpdateArticle(Article Article)
         {
-            var FoundArticle = await _context.Articles.FindAsync(Article.Id);
-
-            if (FoundArticle != null)
-            {
-                var UpdatedArticle = _context.Articles.Update(FoundArticle);
-                await _context.SaveChangesAsync();
-
-                return UpdatedArticle.Entity;
-            }
-
-            return null;
+            _context.Articles.Update(Article);
+            return true;
         }
     }
 }
