@@ -8,8 +8,6 @@ namespace Butcher_Shop.Dtos
 {
     public class ArticleDto
     {
-        public string Naziv { get; set; }
-
-        public virtual ICollection<StorageArticle> StorageArticles { get; set; }
+        public string Name { get; set; }
     }
 }
