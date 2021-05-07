@@ -61,22 +61,25 @@ namespace Butcher_Shop.Controllers
         }
 
         [HttpPut(":id")]
-        // There is a security vulnerability here
-        // but there's too much code for one man to write
         public async Task<IActionResult> Put(int Id, [FromBody] AddButcherDto Butcher)
         {
-            if(ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
-                var OldButcher = await _unitOfWork.IButcherRepo.GetButcher(Id, false);
-
-                _mapper.Map<AddButcherDto, Butcher>(Butcher, OldButcher);
-
-                await _unitOfWork.Complete();
-
-                return Ok(OldButcher);
+                return BadRequest(new { Message = "Invalid info!" });
             }
 
-            return BadRequest(new { Message = "Invalid info!" });
+            var OldButcher = await _unitOfWork.IButcherRepo.GetButcher(Id, false);
+
+            if(OldButcher == null)
+            {
+                return NotFound(new { Message = $"Butcher with Id:{Id} not found." });
+            }
+
+            _mapper.Map<AddButcherDto, Butcher>(Butcher, OldButcher);
+
+            await _unitOfWork.Complete();
+
+            return Ok(OldButcher);
         }
 
         [HttpDelete(":id")]
