@@ -16,36 +16,16 @@ namespace Butcher_Shop.Data.EmployeeRepo
             _context = context;
         }
 
-        public async Task<Employee> AddEmployee(Employee Employee)
+        public async Task<bool> AddEmployee(Employee Employee)
         {
-            var AddedEmployee = await _context.Employees.AddAsync(Employee);
-
-            if (AddedEmployee != null)
-            {
-                await _context.SaveChangesAsync();
-                return AddedEmployee.Entity;
-            }
-            return null;
+            await _context.Employees.AddAsync(Employee);
+            return true;
         }
 
-        public Task<bool> AddEmployeeToButcherStore(int ButcherStoreId, Employee Employee)
+        public bool DeleteEmployee(Employee Employee)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<bool> DeleteEmployee(int Id)
-        {
-            var FoundEmployee = await _context.Employees.FindAsync(Id);
-
-            if (FoundEmployee != null)
-            {
-                _context.Employees.Remove(FoundEmployee);
-                await _context.SaveChangesAsync();
-
-                return true;
-            }
-
-            return false;
+            _context.Employees.Remove(Employee);
+            return true;
         }
 
         public async Task<List<Employee>> GetAllEmployees()
@@ -55,22 +35,13 @@ namespace Butcher_Shop.Data.EmployeeRepo
 
         public async Task<Employee> GetEmployee(int Id)
         {
-            var FoundEmployee = await _context.Employees.FindAsync(Id);
-
-            if (FoundEmployee != null)
-            {
-                return FoundEmployee;
-            }
-
-            return null;
+            return await _context.Employees.FirstOrDefaultAsync(i => i.Id == Id);
         }
 
-        public async Task<Employee> UpdateEmployee(int Id, Employee Employee)
+        public bool UpdateEmployee(Employee Employee)
         {
-            var UpdatedEmployee = _context.Employees.Update(Employee);
-            await _context.SaveChangesAsync();
-
-            return UpdatedEmployee.Entity;
+            _context.Employees.Update(Employee);
+            return true;
         }
     }
 }

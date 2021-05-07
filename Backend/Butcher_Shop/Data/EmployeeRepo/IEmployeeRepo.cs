@@ -10,9 +10,8 @@ namespace Butcher_Shop.Data.EmployeeRepo
     {
         public Task<List<Employee>> GetAllEmployees();
         public Task<Employee> GetEmployee(int Id);
-        public Task<Employee> AddEmployee(Employee Employee);
-        public Task<Employee> UpdateEmployee(int Id, Employee Employee);
-        public Task<bool> DeleteEmployee(int Id);
-        public Task<bool> AddEmployeeToButcherStore(int ButcherStoreId, Employee Employee);
+        public Task<bool> AddEmployee(Employee Employee);
+        public bool UpdateEmployee(Employee Employee);
+        public bool DeleteEmployee(Employee Employee);
     }
 }
