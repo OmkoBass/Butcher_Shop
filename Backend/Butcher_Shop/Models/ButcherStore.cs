@@ -26,6 +26,7 @@ namespace Butcher_Shop.Models
         [Range(0, Int32.MaxValue)]
         public int Area { get; set; }
 
+        [Required]
         public int ButcherId { get; set; }
         public virtual Butcher Butcher { get; set; }
     }
