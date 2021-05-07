@@ -41,6 +41,7 @@ namespace Butcher_Shop
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            services.AddScoped<IUnitOfWork, MockUnitOfWork>();
             services.AddScoped<IButcherRepo, MockButcherRepo>();
             services.AddScoped<IButcherStoreRepo, MockButcherStoreRepo>();
             services.AddScoped<IStorageRepo, MockStorageRepo>();
