@@ -12,56 +12,41 @@ namespace Butcher_Shop.Data.ButcherRepo
         private readonly DatabaseContext _context;
         public MockButcherRepo(DatabaseContext context) => _context = context;
 
-        public async Task<Butcher> AddButcher(Butcher Butcher)
+        public async Task<bool> AddButcher(Butcher Butcher)
         {
-            var AddedButcher = await _context.Butchers.AddAsync(Butcher);
+            await _context.Butchers.AddAsync(Butcher);
+            return true;
+        }
 
-            if (AddedButcher != null)
+        public bool DeleteButcher(Butcher Butcher)
+        {
+            _context.Butchers.Remove(Butcher);
+            return true;
+        }
+
+        public async Task<List<Butcher>> GetAllButchers(bool IncludeAll)
+        {
+            if(IncludeAll)
             {
-                await _context.SaveChangesAsync();
-                return AddedButcher.Entity;
+                return await _context.Butchers.Include(b => b.ButcherStores).ToListAsync();
             }
-            return null;
+            return await _context.Butchers.ToListAsync();
         }
 
-        public async Task<bool> DeleteButcher(int Id)
+        public async Task<Butcher> GetButcher(int Id, bool IncludeAll)
         {
-            var FoundButcher = await _context.Butchers.FindAsync(Id);
-
-            if(FoundButcher != null)
-            {
-                _context.Butchers.Remove(FoundButcher);
-                await _context.SaveChangesAsync();
-
-                return true;
-            }
-
-            return false;
-        }
-
-        public async Task<List<Butcher>> GetAllButchers()
-        {
-            return await _context.Butchers.Include(b => b.ButcherStores).ToListAsync();
-        }
-
-        public async Task<Butcher> GetButcher(int Id)
-        {
-            var FoundButcher = await _context.Butchers.FindAsync(Id);
-
-            if (FoundButcher != null)
+            if (IncludeAll)
             {
                 return await _context.Butchers.Include(b => b.ButcherStores).FirstOrDefaultAsync(i => i.Id == Id);
             }
 
-            return null;
+            return await _context.Butchers.FirstOrDefaultAsync(i => i.Id == Id);
         }
 
-        public async Task<Butcher> UpdateButcher(int ButcherId, Butcher Butcher)
+        public bool UpdateButcher(Butcher Butcher)
         {
-            var UpdatedButcher = _context.Butchers.Update(Butcher);
-            await _context.SaveChangesAsync();
-
-            return UpdatedButcher.Entity;
+            _context.Butchers.Update(Butcher);
+            return true;
         }
     }
 }

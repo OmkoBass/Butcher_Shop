@@ -8,10 +8,10 @@ namespace Butcher_Shop.Data.ButcherRepo
 {
     public interface IButcherRepo
     {
-        public Task<List<Butcher>> GetAllButchers();
-        public Task<Butcher> GetButcher(int Id);
-        public Task<Butcher> AddButcher(Butcher Butcher);
-        public Task<Butcher> UpdateButcher(int Id, Butcher Butcher);
-        public Task<bool> DeleteButcher(int Id);
+        public Task<List<Butcher>> GetAllButchers(bool IncludeAll = true);
+        public Task<Butcher> GetButcher(int Id, bool IncludeAll = true);
+        public Task<bool> AddButcher(Butcher Butcher);
+        public bool UpdateButcher(Butcher Butcher);
+        public bool DeleteButcher(Butcher Butcher);
     }
 }
