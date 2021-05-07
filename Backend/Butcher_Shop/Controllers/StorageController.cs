@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using Butcher_Shop.Data.StorageRepo;
-using Butcher_Shop.Dtos;
-using Butcher_Shop.Models;
+using Butcher_Shop.Data;
+using Butcher_Shop.Dtos.Storage;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Butcher_Shop.Models;
 
 namespace Butcher_Shop.Controllers
 {
@@ -14,84 +14,88 @@ namespace Butcher_Shop.Controllers
     [ApiController]
     public class StorageController : ControllerBase
     {
-        private readonly IStorageRepo _storageRepo;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public StorageController(IStorageRepo storageRepo, IMapper mapper)
+
+        public StorageController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _storageRepo = storageRepo;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllStorages()
+        public async Task<IActionResult> GetAll()
         {
-            var AllStorages = await _storageRepo.GetAllStorages();
+            var AllStorages = await _unitOfWork.IStorageRepo.GetAllStorages();
 
-            return Ok(_mapper.Map<List<StorageDto>>(AllStorages));
+            return Ok(AllStorages);
         }
 
-        [HttpGet("id")]
-        public async Task<IActionResult> GetStorage(int Id)
+        [HttpGet(":id")]
+        public async Task<IActionResult> Get(int Id)
         {
-            var Storage = await _storageRepo.GetStorage(Id);
+            var Storage = await _unitOfWork.IStorageRepo.GetStorage(Id);
 
             if (Storage != null)
             {
-                return Ok(_mapper.Map<StorageDto>(Storage));
+                return Ok(Storage);
             }
 
-            return NotFound(new { Message = $"Storage with Id:{Id} not found!" });
+            return NotFound(new { Message = $"Storage with Id:{Id} not found." });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] StorageDto StorageDto)
+        public async Task<IActionResult> Post([FromBody] AddStorageDto Storage)
         {
             if (ModelState.IsValid)
             {
-                var AddedStorage = await _storageRepo.AddStorage(_mapper.Map<Storage>(StorageDto));
+                var AddedStorage = _mapper.Map<Storage>(Storage);
 
-                if (AddedStorage != null)
-                {
-                    return Ok(AddedStorage);
-                }
-                else
-                {
-                    return BadRequest(new { Message = "Something went wrong!" });
-                }
+                await _unitOfWork.IStorageRepo.AddStorage(AddedStorage);
+                await _unitOfWork.Complete();
+
+                return Ok(AddedStorage);
             }
 
-            return BadRequest(new { Message = "Not valid!" });
+            return BadRequest(new { Message = "Invalid info!" });
         }
 
-        [HttpPut("id")]
-        public async Task<IActionResult> Put(int Id, [FromBody] Storage Storage)
+        [HttpPut(":id")]
+        public async Task<IActionResult> Put(int Id, [FromBody] AddStorageDto Storage)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var UpdatedStorage = await _storageRepo.UpdateStorage(Id, Storage);
-
-                if (UpdatedStorage != null)
-                {
-                    return Ok(UpdatedStorage);
-                }
-
-                return BadRequest(new { Message = "Something went wrong!" });
+                return BadRequest(new { Message = "Invalid info!" });
             }
 
-            return BadRequest(new { Message = "Not valid!" });
+            var OldStorage = await _unitOfWork.IStorageRepo.GetStorage(Id);
+
+            if (OldStorage == null)
+            {
+                return NotFound(new { Message = $"Storage with Id:{Id} not found." });
+            }
+
+            _mapper.Map<AddStorageDto, Storage>(Storage, OldStorage);
+
+            await _unitOfWork.Complete();
+
+            return Ok(OldStorage);
         }
 
-        [HttpDelete("id")]
+        [HttpDelete(":id")]
         public async Task<IActionResult> Delete(int Id)
         {
-            var DeletedStorage = await _storageRepo.DeleteStorage(Id);
+            var Storage = await _unitOfWork.IStorageRepo.GetStorage(Id);
 
-            if (DeletedStorage)
+            if (Storage != null)
             {
-                return Ok(new { Message = "Storage deleted!" });
+                _unitOfWork.IStorageRepo.DeleteStorage(Storage);
+                await _unitOfWork.Complete();
+
+                return Ok(Storage);
             }
 
-            return NotFound(new { Message = "Storage not found!" });
+            return NotFound(new { Message = $"Storage with Id:{Id} not found." });
         }
     }
 }
