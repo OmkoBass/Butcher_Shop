@@ -1,5 +1,8 @@
-﻿using Butcher_Shop.Data.EmployeeRepo;
+﻿using AutoMapper;
+using Butcher_Shop.Data;
+using Butcher_Shop.Dtos;
 using Butcher_Shop.Models;
+using Butcher_Shop.Migrations;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,83 +15,87 @@ namespace Butcher_Shop.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly IEmployeeRepo _employeeRepo;
-
-        public EmployeeController(IEmployeeRepo employeeRepo)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        public EmployeeController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _employeeRepo = employeeRepo;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllEmployees()
+        public async Task<IActionResult> GetAll()
         {
-            var AllEmployees = await _employeeRepo.GetAllEmployees();
+            var AllEmployees = await _unitOfWork.IEmployeeRepo.GetAllEmployees();
 
             return Ok(AllEmployees);
         }
 
-        [HttpGet("id")]
-        public async Task<IActionResult> GetEmployeeById(int Id)
+        [HttpGet(":id")]
+        public async Task<IActionResult> Get(int Id)
         {
-            var Employee = await _employeeRepo.GetEmployee(Id);
+            var Employee = await _unitOfWork.IEmployeeRepo.GetEmployee(Id);
 
             if (Employee != null)
             {
                 return Ok(Employee);
             }
 
-            return NotFound(new { Message = $"Employee with Id:{Id} not found!" });
+            return NotFound(new { Message = $"Employee Store with Id:{Id} not found." });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Employee Employee)
+        public async Task<IActionResult> Post([FromBody] EmployeeDto Employee)
         {
             if (ModelState.IsValid)
             {
-                var AddedEmployee = await _employeeRepo.AddEmployee(Employee);
+                var AddedEmployee = _mapper.Map<Butcher_Shop.Models.Employee>(Employee);
 
-                if (AddedEmployee != null)
-                {
-                    return Ok(AddedEmployee);
-                }
-                else
-                {
-                    return BadRequest(new { Message = "Something went wrong!" });
-                }
+                await _unitOfWork.IEmployeeRepo.AddEmployee(AddedEmployee);
+                await _unitOfWork.Complete();
+
+                return Ok(AddedEmployee);
             }
 
-            return BadRequest(new { Message = "Not valid!" });
+            return BadRequest(new { Message = "Invalid info!" });
         }
 
-        [HttpPut("id")]
-        public async Task<IActionResult> Put(int Id, [FromBody] Employee Employee)
+        [HttpPut(":id")]
+        public async Task<IActionResult> Put(int Id, [FromBody] EmployeeDto Employee)
         {
-            if (ModelState.IsValid && (Id == Employee.Id))
+            if (!ModelState.IsValid)
             {
-                var UpdatedEmployee = await _employeeRepo.UpdateEmployee(Id, Employee);
-
-                if (UpdatedEmployee != null)
-                {
-                    return Ok(UpdatedEmployee);
-                }
-
-                return BadRequest(new { Message = "Something went wrong!" });
+                return BadRequest(new { Message = "Invalid info!" });
             }
 
-            return BadRequest(new { Message = "Not valid!" });
+            var OldEmployee = await _unitOfWork.IEmployeeRepo.GetEmployee(Id);
+
+            if (OldEmployee == null)
+            {
+                return NotFound(new { Message = $"Employee with Id:{Id} not found." });
+            }
+
+            _mapper.Map<EmployeeDto, Butcher_Shop.Models.Employee>(Employee, OldEmployee);
+
+            await _unitOfWork.Complete();
+
+            return Ok(OldEmployee);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete(":id")]
         public async Task<IActionResult> Delete(int Id)
         {
-            var DeletedEmployee = await _employeeRepo.DeleteEmployee(Id);
+            var Employee = await _unitOfWork.IEmployeeRepo.GetEmployee(Id);
 
-            if (DeletedEmployee)
+            if (Employee != null)
             {
-                return Ok(new { Message = "Employee deleted!" });
+                _unitOfWork.IEmployeeRepo.DeleteEmployee(Employee);
+                await _unitOfWork.Complete();
+
+                return Ok(Employee);
             }
 
-            return NotFound(new { Message = "Employee not found!" });
+            return NotFound(new { Message = $"Employee with Id:{Id} not found." });
         }
     }
 }
