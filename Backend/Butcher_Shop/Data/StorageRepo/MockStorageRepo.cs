@@ -13,63 +13,32 @@ namespace Butcher_Shop.Data.StorageRepo
 
         public MockStorageRepo(DatabaseContext context) => _context = context;
 
-        public async Task<Storage> AddStorage(Storage Storage)
+        public async Task<bool> AddStorage(Storage Storage)
         {
-            var AddedStorage = await _context.Storages.AddAsync(Storage);
-
-            if (AddedStorage != null)
-            {
-                await _context.SaveChangesAsync();
-                return AddedStorage.Entity;
-            }
-            return null;
+            await _context.Storages.AddAsync(Storage);
+            return true;
         }
 
-        public async Task<bool> DeleteStorage(int Id)
+        public bool DeleteStorage(Storage Storage)
         {
-            var FoundStorage = await _context.Storages.FindAsync(Id);
-
-            if (FoundStorage != null)
-            {
-                _context.Storages.Remove(FoundStorage);
-                await _context.SaveChangesAsync();
-
-                return true;
-            }
-
-            return false;
+            _context.Storages.Remove(Storage);
+            return true;
         }
 
         public async Task<List<Storage>> GetAllStorages()
         {
-            return await _context.Storages.Include(s => s.StorageArticles).ToListAsync();
+            return await _context.Storages.ToListAsync();
         }
 
         public async Task<Storage> GetStorage(int Id)
         {
-            var FoundStorage = await _context.Storages.FindAsync(Id);
-
-            if (FoundStorage != null)
-            {
-                return await _context.Storages.Include(s => s.StorageArticles).FirstOrDefaultAsync(i => i.Id == Id);
-            }
-
-            return null;
+            return await _context.Storages.FirstOrDefaultAsync(i => i.Id == Id);
         }
 
-        public async Task<Storage> UpdateStorage(int Id, Storage Storage)
+        public bool UpdateStorage(Storage Storage)
         {
-            var FoundStorage = await _context.Storages.FindAsync(Id);
-
-            if (FoundStorage != null)
-            {
-                var UpdatedStorage = _context.Storages.Update(Storage);
-                await _context.SaveChangesAsync();
-
-                return UpdatedStorage.Entity;
-            }
-
-            return null;
+            _context.Storages.Update(Storage);
+            return true;
         }
     }
 }

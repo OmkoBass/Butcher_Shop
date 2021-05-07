@@ -10,8 +10,8 @@ namespace Butcher_Shop.Data.StorageRepo
     {
         public Task<List<Storage>> GetAllStorages();
         public Task<Storage> GetStorage(int Id);
-        public Task<Storage> AddStorage(Storage Storage);
-        public Task<Storage> UpdateStorage(int Id, Storage Storage);
-        public Task<bool> DeleteStorage(int Id);
+        public Task<bool> AddStorage(Storage Storage);
+        public bool UpdateStorage(Storage Storage);
+        public bool DeleteStorage(Storage Storage);
     }
 }
