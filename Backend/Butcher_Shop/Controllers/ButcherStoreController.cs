@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Butcher_Shop.Data.ButcherStoreRepo;
+using Butcher_Shop.Data;
 using Butcher_Shop.Dtos;
 using Butcher_Shop.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -14,95 +14,87 @@ namespace Butcher_Shop.Controllers
     [ApiController]
     public class ButcherStoreController : ControllerBase
     {
-        private readonly IButcherStoreRepo _butcherStoreRepo;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public ButcherStoreController(IButcherStoreRepo butcherStoreRepo, IMapper mapper)
+        public ButcherStoreController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _butcherStoreRepo = butcherStoreRepo;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllButcherStores()
+        public async Task<IActionResult> GetAll()
         {
-            return Ok(await _butcherStoreRepo.GetAllButcherStores());
+            var AllButcherStores = await _unitOfWork.IButcherStoreRepo.GetAllButcherStores();
+
+            return Ok(AllButcherStores);
         }
 
-        [HttpGet("id")]
-        public async Task<IActionResult> GetButcherStore(int Id)
+        [HttpGet(":id")]
+        public async Task<IActionResult> Get(int Id)
         {
-            var ButcherStore = await _butcherStoreRepo.GetButcherStore(Id);
+            var ButcherStore = await _unitOfWork.IButcherStoreRepo.GetButcherStore(Id);
 
             if (ButcherStore != null)
             {
                 return Ok(ButcherStore);
             }
 
-            return NotFound(new { Message = $"Butcher Store with Id:{Id} not found!" });
-        }
-
-        [HttpGet("ButcherId")]
-        public async Task<IActionResult> GetButcherStoreByButcher(int ButcherId)
-        {
-            var ButcherStores = await _butcherStoreRepo.GetAllButcherStoresByButcher(ButcherId);
-
-            if (ButcherStores != null)
-            {
-                return Ok(_mapper.Map<List<ButcherStoreDto>>(ButcherStores));
-            }
-
-            return NotFound(new { Message = $"Butcher Store with Butcher Id:{ButcherId} not found!" });
+            return NotFound(new { Message = $"Butcher Store with Id:{Id} not found." });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ButcherStore ButcherStore)
+        public async Task<IActionResult> Post([FromBody] AddButcherStoreDto ButcherStore)
         {
-            if (ModelState.IsValid)
+            if(ModelState.IsValid)
             {
-                var AddedButcherStore = await _butcherStoreRepo.AddButcherStore(ButcherStore);
+                var AddedButcherStore = _mapper.Map<ButcherStore>(ButcherStore);
 
-                if (AddedButcherStore != null)
-                {
-                    return Ok(AddedButcherStore);
-                }
-                else
-                {
-                    return BadRequest(new { Message = "Something went wrong!" });
-                }
+                await _unitOfWork.IButcherStoreRepo.AddButcherStore(AddedButcherStore);
+                await _unitOfWork.Complete();
+
+                return Ok(AddedButcherStore);
             }
 
-            return BadRequest(new { Message = "Something went wrong!" });
+            return BadRequest(new { Message = "Invalid info!" });
         }
 
-        [HttpPut("id")]
-        public async Task<IActionResult> Put(int Id, [FromBody] ButcherStore ButcherStore)
+        [HttpPut(":id")]
+        public async Task<IActionResult> Put(int Id, [FromBody] AddButcherStoreDto ButcherStore)
         {
-            if (ModelState.IsValid && (Id == ButcherStore.Id))
+            if (!ModelState.IsValid)
             {
-                var UpdatedButcherStore = await _butcherStoreRepo.UpdateButcherStore(Id, ButcherStore);
-
-                if (UpdatedButcherStore != null)
-                {
-                    return Ok(UpdatedButcherStore);
-                }
-
-                return BadRequest(new { Message = "Something went wrong!" });
+                return BadRequest(new { Message = "Invalid info!" });
             }
 
-            return BadRequest(new { Message = "Not valid!" });
+            var OldButcherStore = await _unitOfWork.IButcherStoreRepo.GetButcherStore(Id);
+
+            if(OldButcherStore == null)
+            {
+                return NotFound(new { Message = $"Butcher Store with Id:{Id} not found." });
+            }
+
+            _mapper.Map<AddButcherStoreDto, ButcherStore>(ButcherStore, OldButcherStore);
+
+            await _unitOfWork.Complete();
+
+            return Ok(OldButcherStore);
         }
 
-        [HttpDelete("id")]
+        [HttpDelete(":id")]
         public async Task<IActionResult> Delete(int Id)
         {
-            var DeletedButcherStore = await _butcherStoreRepo.DeleteButcherStore(Id);
+            var ButcherStore = await _unitOfWork.IButcherStoreRepo.GetButcherStore(Id);
 
-            if(DeletedButcherStore)
+            if (ButcherStore != null)
             {
-                return Ok(new { Message = "Butcher Store deleted!" });
+                _unitOfWork.IButcherStoreRepo.DeleteButcherStore(ButcherStore);
+                await _unitOfWork.Complete();
+
+                return Ok(ButcherStore);
             }
 
-            return NotFound(new { Message = "Butcher Store not found!" });
+            return NotFound(new { Message = $"Butcher Store with Id:{Id} not found." });
         }
     }
 }

@@ -10,33 +10,18 @@ namespace Butcher_Shop.Data.ButcherStoreRepo
     public class MockButcherStoreRepo : IButcherStoreRepo
     {
         private readonly DatabaseContext _context;
-        public MockButcherStoreRepo(DatabaseContext context) => _context = context; 
-        public async Task<ButcherStore> AddButcherStore(ButcherStore ButcherStore)
+        public MockButcherStoreRepo(DatabaseContext context) => _context = context;
+
+        public async Task<bool> AddButcherStore(ButcherStore ButcherStore)
         {
-            var AddedButcherStore = await _context.ButcherStores.AddAsync(ButcherStore);
-
-            if(AddedButcherStore != null)
-            {
-                await _context.SaveChangesAsync();
-
-                return AddedButcherStore.Entity;
-            }
-            return null;
+            await _context.ButcherStores.AddAsync(ButcherStore);
+            return true;
         }
 
-        public async Task<bool> DeleteButcherStore(int Id)
+        public bool DeleteButcherStore(ButcherStore ButcherStore)
         {
-            var FoundButhcer = await _context.ButcherStores.FindAsync(Id);
-
-            if (FoundButhcer != null)
-            {
-                _context.ButcherStores.Remove(FoundButhcer);
-                await _context.SaveChangesAsync();
-
-                return true;
-            }
-
-            return false;
+            _context.ButcherStores.Remove(ButcherStore);
+            return true;
         }
 
         public async Task<List<ButcherStore>> GetAllButcherStores()
@@ -44,41 +29,15 @@ namespace Butcher_Shop.Data.ButcherStoreRepo
             return await _context.ButcherStores.ToListAsync();
         }
 
-        public async Task<List<ButcherStore>> GetAllButcherStoresByButcher(int Id)
-        {
-            var FoundButcher = await _context.Butchers.FindAsync(Id);
-
-            if(FoundButcher != null)
-            {
-                return await _context.ButcherStores.Where(bs => bs.ButcherId == Id).ToListAsync();
-            }
-
-            return null;
-        }
-
         public async Task<ButcherStore> GetButcherStore(int Id)
         {
-            var FoundButcherStore = await _context.ButcherStores.FindAsync(Id);
-
-            if(FoundButcherStore != null)
-            {
-                return FoundButcherStore;
-            }
-
-            return null;
+            return await _context.ButcherStores.FirstOrDefaultAsync(i => i.Id == Id);
         }
 
-        public async Task<ButcherStore> UpdateButcherStore(int Id, ButcherStore ButcherStore)
+        public bool UpdateButcherStore(ButcherStore ButcherStore)
         {
-            if (Id == ButcherStore.Id)
-            {
-                var UpdatedButcherStore = _context.ButcherStores.Update(ButcherStore);
-                await _context.SaveChangesAsync();
-
-                return UpdatedButcherStore.Entity;
-            }
-
-            return null;
+            _context.ButcherStores.Update(ButcherStore);
+            return true;
         }
     }
 }
