@@ -22,6 +22,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatListModule } from '@angular/material/list';
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { ButcherStoreComponent } from './butcher-store/butcher-store.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,8 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
     DashboardComponent,
     LoginComponent,
     RegisterComponent,
+    ButcherStoreComponent,
+    HomeComponent,
   ],
   imports: [
     HttpClientModule,
@@ -49,7 +54,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
     MatGridListModule,
     MatListModule,
     MatSnackBarModule,
-    
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
