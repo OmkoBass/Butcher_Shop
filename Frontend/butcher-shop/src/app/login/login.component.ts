@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ButcherService } from '../services/butcherService/butcher-service.service';
+import { ButcherService } from '../services/butcherService/butcherService/butcher-service.service';
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from '@angular/router';
 
@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
     const values = form.value;
     this.butcherService.LoginButcher({username: values.username, password: values.password })
     .subscribe(res => {
-      localStorage.setItem('beefyToken', res.token);
+      localStorage.setItem('beefyToken', `Bearer ${res.token}`);
       this.router.navigate(['/']);
       this.submitting = false;
     }, (_: Response) => {
