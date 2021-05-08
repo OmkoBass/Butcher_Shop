@@ -1,0 +1,59 @@
+<div class="container" *ngIf="!loading; else showLoading">
+    <div style="display:flex; flex-direction: row;">
+        <h1>
+            {{ butcherStore.name }}
+        </h1>
+    
+        <h2 style="margin: 0 1em">
+            Address: {{ butcherStore.address }}
+        </h2>
+    
+        <h2>
+            Area: {{ butcherStore.area }}
+        </h2>
+    </div>
+
+    <h3>
+        Number of employees: {{ butcherStore.employees.length }}
+    </h3>
+    
+    <mat-divider></mat-divider>
+
+    <div *ngFor="let employee of butcherStore.employees">
+        <mat-card>
+            <mat-card-header>
+              <img mat-card-avatar src="../../assets/employee_64.png"/>
+
+                <mat-card-title>
+                    {{ employee.name }} {{ employee.lastname }}
+                </mat-card-title>
+                <mat-card-subtitle>
+                    {{ employee.job === 0 ? 'Cashier' : 'Administration' }}
+                </mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+                <h4>
+                    Address: {{ employee.address }}
+                </h4>
+                <h4>
+                    sex: {{ employee.sex ? 'Male' : 'Female' }}
+                </h4>
+            </mat-card-content>
+
+            <mat-card-actions>
+                <button mat-raised-button color="primary"
+                    (click)="handleOpenEditDialog(employee)"
+                >Edit</button>
+                <button mat-raised-button color="warn">Delete</button>
+            </mat-card-actions>
+        </mat-card>
+
+        <mat-divider></mat-divider>
+    </div>
+</div>
+<ng-template #showLoading>
+    <div style="width: 100%; height: 100%;" class="super-center">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>
