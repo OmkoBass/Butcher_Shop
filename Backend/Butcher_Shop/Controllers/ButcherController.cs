@@ -3,6 +3,8 @@ using Butcher_Shop.Data;
 using Butcher_Shop.Dtos;
 using Butcher_Shop.Dtos.Butcher;
 using Butcher_Shop.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,7 @@ namespace Butcher_Shop.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ButcherController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -31,12 +34,23 @@ namespace Butcher_Shop.Controllers
             return Ok(_mapper.Map<List<ButcherDto>>(AllButchers));
         }
 
+        [HttpGet]
+        [Route("loggedIn")]
+        public async Task<IActionResult> GetLoggedIn()
+        {
+            var Id = User.FindFirst("Id").Value;
+
+            var Butcher = await _unitOfWork.IButcherRepo.GetButcher(Int32.Parse(Id));
+
+            return Ok(_mapper.Map<ButcherDto>(Butcher));
+        }
+
         [HttpGet(":id")]
         public async Task<IActionResult> Get(int Id)
         {
             var Butcher = await _unitOfWork.IButcherRepo.GetButcher(Id);
 
-            if(Butcher != null)
+            if (Butcher != null)
             {
                 return Ok(_mapper.Map<ButcherDto>(Butcher));
             }
