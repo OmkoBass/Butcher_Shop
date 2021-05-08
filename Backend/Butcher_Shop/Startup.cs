@@ -39,6 +39,15 @@ namespace Butcher_Shop
         {
             services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnection")));
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFromAll",
+                    builder => builder
+                    .WithMethods().AllowAnyMethod()
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader());
+            });
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<IUnitOfWork, MockUnitOfWork>();
@@ -114,6 +123,8 @@ namespace Butcher_Shop
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Butcher_Shop v1"));
             }
+
+            app.UseCors("AllowFromAll");
 
             app.UseHttpsRedirection();
 
