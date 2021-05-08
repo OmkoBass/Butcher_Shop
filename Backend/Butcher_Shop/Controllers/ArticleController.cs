@@ -97,5 +97,27 @@ namespace Butcher_Shop.Controllers
 
             return NotFound(new { Message = $"Article with Id:{Id} not found." });
         }
+
+        //[HttpPost]
+        //[Route("/addToStorage/:StorageId")]
+        //public async Task<IActionResult> AddToStorage(int StorageId, ArticleDto Article)
+        //{
+        //    var FoundStorage = await _unitOfWork.IStorageRepo.GetStorage(StorageId);
+
+        //    if (ModelState.IsValid && FoundStorage != null)
+        //    {
+        //        var AddedArticle = _mapper.Map<Article>(Article);
+
+        //        await _unitOfWork.IArticleRepo.AddArticle(AddedArticle);
+        //        await _unitOfWork.Complete();
+
+        //        await _unitOfWork.IArticleRepo.AddToStorage(AddedArticle.Id, FoundStorage.Id);
+        //        await _unitOfWork.Complete();
+
+        //        return Ok(AddedArticle);
+        //    }
+
+        //    return BadRequest(new { Message = "Invalid info!" });
+        //}
     }
 }

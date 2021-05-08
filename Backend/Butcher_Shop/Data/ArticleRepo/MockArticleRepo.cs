@@ -19,6 +19,17 @@ namespace Butcher_Shop.Data.ArticleRepo
             return true;
         }
 
+        public async Task<bool> AddToStorage(int ArticleId, int StorageId)
+        {
+            await _context.StorageArticles.AddAsync(new StorageArticle()
+            {
+                ArticleId = ArticleId,
+                StorageId = StorageId
+            });
+
+            return true;
+        }
+
         public bool DeleteArticle(Article Article)
         {
             _context.Articles.Remove(Article);

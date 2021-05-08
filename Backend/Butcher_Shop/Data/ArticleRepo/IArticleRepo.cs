@@ -13,5 +13,6 @@ namespace Butcher_Shop.Data.ArticleRepo
         public Task<bool> AddArticle(Article Article);
         public bool UpdateArticle(Article Article);
         public bool DeleteArticle(Article Article);
+        public Task<bool> AddToStorage(int ArticleId, int StorageId);
     }
 }
