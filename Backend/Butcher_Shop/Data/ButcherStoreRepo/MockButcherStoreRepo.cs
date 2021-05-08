@@ -26,12 +26,17 @@ namespace Butcher_Shop.Data.ButcherStoreRepo
 
         public async Task<List<ButcherStore>> GetAllButcherStores()
         {
-            return await _context.ButcherStores.ToListAsync();
+            return await _context.ButcherStores.Include(bs => bs.Employees).ToListAsync();
         }
 
         public async Task<ButcherStore> GetButcherStore(int Id)
         {
-            return await _context.ButcherStores.FirstOrDefaultAsync(i => i.Id == Id);
+            return await _context.ButcherStores.Include(bs => bs.Employees).FirstOrDefaultAsync(i => i.Id == Id);
+        }
+
+        public async Task<List<ButcherStore>> GetButcherStoresByButcher(int ButcherId)
+        {
+            return await _context.ButcherStores.Where(i => i.ButcherId == ButcherId).Include(bs => bs.Employees).ToListAsync();
         }
 
         public bool UpdateButcherStore(ButcherStore ButcherStore)
