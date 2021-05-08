@@ -37,7 +37,7 @@ namespace Butcher_Shop.Data.ButcherRepo
         {
             if (IncludeAll)
             {
-                return await _context.Butchers.Include(b => b.ButcherStores).FirstOrDefaultAsync(i => i.Id == Id);
+                return await _context.Butchers.Include(b => b.ButcherStores).ThenInclude(bs => bs.Employees).FirstOrDefaultAsync(i => i.Id == Id);
             }
 
             return await _context.Butchers.FirstOrDefaultAsync(i => i.Id == Id);
