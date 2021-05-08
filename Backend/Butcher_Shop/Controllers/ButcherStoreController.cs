@@ -27,7 +27,18 @@ namespace Butcher_Shop.Controllers
         {
             var AllButcherStores = await _unitOfWork.IButcherStoreRepo.GetAllButcherStores();
 
-            return Ok(AllButcherStores);
+            return Ok(_mapper.Map<List<ButcherStoreDto>>(AllButcherStores));
+        }
+
+        [HttpGet]
+        [Route("/butcherStores")]
+        public async Task<IActionResult> ButcherStores()
+        {
+            var Id = Int32.Parse(User.FindFirst("Id").Value);
+
+            var ButcherStores = await _unitOfWork.IButcherStoreRepo.GetButcherStoresByButcher(Id);
+
+            return Ok(ButcherStores);
         }
 
         [HttpGet(":id")]
