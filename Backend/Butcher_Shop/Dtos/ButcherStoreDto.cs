@@ -11,5 +11,6 @@ namespace Butcher_Shop.Dtos
         public string Name { get; set; }
         public string Address { get; set; }
         public int Area { get; set; }
+        public ICollection<EmployeeDto> Employees { get; set; }
     }
 }
