@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ButcherService } from '../services/butcherService/butcherService/butcher-service.service';
 
 @Component({
@@ -11,16 +11,15 @@ export class HomeComponent implements OnInit {
   loading = true;
   butcher = null;
 
-  constructor(public butcherService: ButcherService, private router: Router) { }
+  constructor(public butcherService: ButcherService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.butcherService.GetButcher()
     .subscribe(res => {
       this.butcher = res;
       this.loading = false;
-      console.log(res);
     }, _ => {
-      this.butcherService.handleLogOut();
+      this.snackBar.open('Something went wrong!', 'Okay!');
     });
   }
 }
