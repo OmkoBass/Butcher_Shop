@@ -31,7 +31,7 @@ namespace Butcher_Shop.Controllers
         }
 
         [HttpGet]
-        [Route("/butcherStores")]
+        [Route("loggedIn")]
         public async Task<IActionResult> ButcherStores()
         {
             var Id = Int32.Parse(User.FindFirst("Id").Value);
