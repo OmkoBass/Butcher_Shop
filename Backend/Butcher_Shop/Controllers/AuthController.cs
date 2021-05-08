@@ -1,5 +1,6 @@
 ﻿using Butcher_Shop.Data.AuthRepo;
 using Butcher_Shop.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
