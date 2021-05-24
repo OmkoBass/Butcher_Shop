@@ -28,6 +28,7 @@ import { ButcherStoreComponent } from './butcher-store/butcher-store.component';
 import { HomeComponent } from './home/home.component';
 import { EditEmployeeDialogComponent } from './edit-employee-dialog/edit-employee-dialog.component';
 import { MatRadioModule } from "@angular/material/radio";
+import { EmployeesComponent } from './employees/employees.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { MatRadioModule } from "@angular/material/radio";
     ButcherStoreComponent,
     HomeComponent,
     EditEmployeeDialogComponent,
+    EmployeesComponent,
   ],
   imports: [
     HttpClientModule,
