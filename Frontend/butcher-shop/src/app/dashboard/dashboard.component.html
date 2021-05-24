@@ -14,17 +14,23 @@
   </mat-toolbar>
   <mat-sidenav-container autosize style="height: 93.4vh">
     <mat-sidenav mode="over" [(opened)]="opened">
-      <h1 style="text-align: center; margin: 1em auto">
-        {{ this.loading ? '' : this.butcher.username }}
-      </h1>
       <mat-divider></mat-divider>
       <mat-nav-list>
-        <a mat-list-item> 
+        <a mat-list-item routerLink="/"> 
             <h4 matLine>
                 Stores
             </h4>
             <img matListIcon src="../../assets/meat_64.png"/>
         </a>
+
+        <mat-divider></mat-divider>
+
+        <a mat-list-item routerLink="/employees"> 
+          <h4 matLine>
+              Employees
+          </h4>
+          <img matListIcon src="../../assets/employee_64.png"/>
+      </a>
 
         <mat-divider></mat-divider>
 
