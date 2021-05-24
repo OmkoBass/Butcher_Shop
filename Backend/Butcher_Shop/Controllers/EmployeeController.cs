@@ -44,6 +44,26 @@ namespace Butcher_Shop.Controllers
             return NotFound(new { Message = $"Employee Store with Id:{Id} not found." });
         }
 
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllEmployeesForButcherStore()
+        {
+            int ButcherStoreId = int.Parse(User.FindFirst("Id").Value);
+
+            var ButcherStores = await _unitOfWork.IButcherStoreRepo.GetButcherStoresByButcher(ButcherStoreId);
+
+            List<Models.Employee> Employees = new List<Models.Employee>();
+
+            foreach(var ButcherStore in ButcherStores)
+            {
+                foreach(var Employee in ButcherStore.Employees)
+                {
+                    Employees.Add(Employee);
+                }
+            }
+
+            return Ok(Employees);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] EmployeeDto Employee)
         {
