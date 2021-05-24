@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
     const values = form.value;
     this.butcherService.LoginButcher({username: values.username, password: values.password })
     .subscribe(res => {
-      localStorage.setItem('beefyToken', `Bearer ${res.token}`);
+      localStorage.setItem('beefyToken', `${res.token}`);
       this.router.navigate(['/']);
       this.submitting = false;
     }, (_: Response) => {
