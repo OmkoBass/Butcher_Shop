@@ -1,5 +1,8 @@
 <div class="container" *ngIf="!loading; else showLoading">
     <div style="display:flex; flex-direction: row;">
+        <button mat-icon-button (click)="handleGoBack()">
+            <mat-icon aria-hidden="false" aria-label="keyboard_backspace">keyboard_backspace</mat-icon>
+        </button>
         <h1>
             {{ butcherStore.name }}
         </h1>
@@ -19,7 +22,7 @@
     
     <mat-divider></mat-divider>
 
-    <div *ngFor="let employee of butcherStore.employees">
+    <div *ngFor="let employee of butcherStore.employees"  style="margin-top: 2em;">
         <mat-card>
             <mat-card-header>
               <img mat-card-avatar src="../../assets/employee_64.png"/>
