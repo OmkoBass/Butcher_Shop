@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-edit-employee-dialog',
@@ -10,11 +10,9 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class EditEmployeeDialogComponent implements OnInit {
   employeeForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, @Inject(MAT_DIALOG_DATA) public employee) { }
+  constructor(private formBuilder: FormBuilder, public dialogRef : MatDialogRef<EditEmployeeDialogComponent>, @Inject(MAT_DIALOG_DATA) public employee) { }
 
   ngOnInit(): void {
-    console.log(this.employee);
-
     this.employeeForm = this.formBuilder.group({
       name: [
         this.employee.name,
@@ -54,6 +52,14 @@ export class EditEmployeeDialogComponent implements OnInit {
         Validators.required
       ]
     });
+  }
+
+  handleSubmit(form) {
+    console.log(form.value);
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 
   get name() {

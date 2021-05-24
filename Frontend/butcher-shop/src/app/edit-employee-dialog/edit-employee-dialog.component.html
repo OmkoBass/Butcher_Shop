@@ -3,47 +3,63 @@
 </h3>
 <form [formGroup]="employeeForm"
 style="display: flex; flex-direction: column; margin-top: 2em"
+(ngSubmit)="handleSubmit(employeeForm)"
 >
     <mat-form-field appearance="outline">
         <mat-label> Name </mat-label>
-        <input matInput formControlName="lastname" />
+        <input matInput formControlName="name" required />
 
         <mat-error *ngIf="name?.touched && name?.invalid"> That's not a legal name </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
         <mat-label> Lastname </mat-label>
-        <input matInput formControlName="lastname" />
+        <input matInput formControlName="lastname" required />
 
         <mat-error *ngIf="lastname?.touched && lastname?.invalid"> That's not a legal lastname </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
         <mat-label> Address </mat-label>
-        <input matInput formControlName="address" />
+        <input matInput formControlName="address" required />
 
         <mat-error *ngIf="address?.touched && address?.invalid"> That's not a legal address </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
         <mat-label> Job </mat-label>
-        <mat-select formControlName="job">
-            <mat-option value="0">Cashier</mat-option>
-            <mat-option value="1">Administration</mat-option>
+        <mat-select formControlName="job" [(value)]="employee.job" required>
+            <mat-option [value]="0">Cashier</mat-option>
+            <mat-option [value]="1">Administration</mat-option>
         </mat-select>
     </mat-form-field>
 
-    <mat-radio-group aria-label="Select an option">
-        <mat-radio-button value="1">Male</mat-radio-button>
+    <mat-radio-group aria-label="Select an option" formControlName="sex">
+        <mat-radio-button [value]="employee.sex === true">Male</mat-radio-button>
         <br>
-        <mat-radio-button style="margin-top: 1em;" value="2">Female</mat-radio-button>
+        <mat-radio-button style="margin-top: 1em;" [value]="employee.sex === false">Female</mat-radio-button>
     </mat-radio-group>
 
-    <button
-        style="margin-top: 1em;"
-        mat-raised-button
-        color="primary"
-    >
-        Save
-    </button>
+    <mat-dialog-actions align="end">
+        <button
+            [disabled]="!employeeForm.valid"
+            style="margin-top: 1em;"
+            mat-raised-button
+            color="primary"
+        >
+            Save
+        </button>
+
+        <button
+            style="margin-top: 1em;"
+            mat-button
+            type="button"
+            color="primary"
+            (click)="closeDialog()"
+        >
+            Close
+        </button>
+    </mat-dialog-actions>
 </form>
+
+
