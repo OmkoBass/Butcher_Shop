@@ -26,7 +26,7 @@ namespace Butcher_Shop.Controllers
             var token = await _authRepo.Authenticate(Butcher.Username, Butcher.Password);
 
             if (token != null)
-                return Ok(new { Token = token });
+                return Ok(new { Token = $"Bearer {token}" });
             return Unauthorized(new { Message = "Unauthorized!" });
         }
     }
