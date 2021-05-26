@@ -36,7 +36,7 @@ namespace Butcher_Shop.Controllers
 
         [HttpGet]
         [Route("loggedIn")]
-        public async Task<IActionResult> GetLoggedIn()
+        public async Task<IActionResult> GetLoggedInButcher()
         {
             var Id = User.FindFirst("Id").Value;
 
@@ -59,6 +59,7 @@ namespace Butcher_Shop.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody] AddButcherDto Butcher)
         {
             if(ModelState.IsValid)
