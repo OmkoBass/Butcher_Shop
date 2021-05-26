@@ -24,6 +24,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from "@angular/material/table";
 import { ButcherStoreComponent } from './butcher-store/butcher-store.component';
 import { HomeComponent } from './home/home.component';
 import { EditEmployeeDialogComponent } from './edit-employee-dialog/edit-employee-dialog.component';
@@ -62,7 +63,8 @@ import { EmployeesComponent } from './employees/employees.component';
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    MatRadioModule
+    MatRadioModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
