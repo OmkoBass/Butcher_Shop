@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ButcherService } from '../services/butcherService/butcher-service.service';
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-register',
@@ -11,8 +13,9 @@ export class RegisterComponent implements OnInit {
   passwordVisible = false;
   repeatPasswordVisible = false;
   passwordValue = '';
+  submitting = false;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private butcherService: ButcherService, private snackBar: MatSnackBar) {
     this.registerForm = this.formBuilder.group({
       name: [
         '',
@@ -76,5 +79,20 @@ export class RegisterComponent implements OnInit {
 
   get terms() {
     return this.registerForm.get('terms');
+  }
+
+  handleRegister(form) {
+    this.butcherService.RegisterButcher({
+      name: form.value.name,
+      username: form.value.username,
+      password: form.value.password
+    })
+    .subscribe(res => {
+      this.snackBar.open(`${res.username} account created succesfully!`, 'Okay!');
+      this.submitting = false;
+    }, () => {
+      this.snackBar.open('Something went wrong!', 'Okay!')
+      this.submitting = false;
+    });
   }
 }
