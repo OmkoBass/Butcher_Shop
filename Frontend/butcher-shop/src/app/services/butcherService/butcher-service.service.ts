@@ -17,6 +17,10 @@ export class ButcherService {
     return this.http.post<any>(this.authUrl, credentials);
   }
 
+  RegisterButcher(newButcherData: any) {
+    return this.http.post<any>(this.url, newButcherData);
+  }
+
   GetButcher() {
     let headers = new HttpHeaders().set('Authorization', localStorage.getItem('beefyToken') || '');
 
