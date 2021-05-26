@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Butcher_Shop.Models
 {
-    public class Storage
+    public class Customer
     {
-        public Storage()
+        public Customer()
         {
-            this.Articles = new HashSet<Article>();
+            this.BoughtArticles = new HashSet<Article>(); 
         }
 
         [Key]
@@ -20,16 +20,22 @@ namespace Butcher_Shop.Models
 
         [Required]
         [MinLength(3)]
+        [MaxLength(16)]
+        public string Name { get; set; }
+
+        [Required]
+        [MinLength(3)]
+        [MaxLength(32)]
+        public string Lastname { get; set; }
+
+        [Required]
+        [MinLength(3)]
         [MaxLength(64)]
         public string Address { get; set; }
 
-        [Range(0, Int32.MaxValue)]
-        public int Area { get; set; }
-
         [Required]
-        public int ButcherStoreId { get; set; }
-        public virtual ButcherStore ButcherStore { get; set; }
+        public bool Sex { get; set; }
 
-        public ICollection<Article> Articles { get; set; }
+        public ICollection<Article> BoughtArticles{ get; set; }
     }
 }

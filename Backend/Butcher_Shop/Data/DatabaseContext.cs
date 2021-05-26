@@ -18,8 +18,8 @@ namespace Butcher_Shop.Data
         public DbSet<ButcherStore> ButcherStores { get; set; }
         public DbSet<Storage> Storages { get; set; }
         public DbSet<Article> Articles { get; set; }
-        public DbSet<StorageArticle> StorageArticles { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,8 +30,6 @@ namespace Butcher_Shop.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Butcher>(Butcher => Butcher.HasIndex(b => b.Username).IsUnique());
-
-            modelBuilder.Entity<StorageArticle>().HasKey(sa => new { sa.StorageId, sa.ArticleId });
         }
     }
 }

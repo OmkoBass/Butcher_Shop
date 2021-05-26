@@ -9,7 +9,10 @@ namespace Butcher_Shop.Models
 {
     public class ButcherStore
     {
-        public ButcherStore() => this.Employees = new HashSet<Employee>();
+        public ButcherStore() {
+            this.Employees = new HashSet<Employee>();
+            this.Customers = new HashSet<Customer>();
+        }
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -32,5 +35,6 @@ namespace Butcher_Shop.Models
         public int ButcherId { get; set; }
         public virtual Butcher Butcher { get; set; }
         public ICollection<Employee> Employees { get; set; }
+        public ICollection<Customer> Customers { get; set; }
     }
 }

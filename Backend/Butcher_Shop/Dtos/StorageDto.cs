@@ -14,6 +14,5 @@ namespace Butcher_Shop.Dtos
         public int Area { get; set; }
         public int ButcherStoreId { get; set; }
         public virtual ButcherStoreDto ButcherStore { get; set; }
-        public virtual ICollection<Models.StorageArticle> StorageArticles { get; set; }
     }
 }

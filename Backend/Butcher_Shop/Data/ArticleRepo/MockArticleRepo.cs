@@ -19,15 +19,9 @@ namespace Butcher_Shop.Data.ArticleRepo
             return true;
         }
 
-        public async Task<bool> AddToStorage(int ArticleId, int StorageId)
+        public Task<bool> AddToStorage(int ArticleId, int StorageId)
         {
-            await _context.StorageArticles.AddAsync(new StorageArticle()
-            {
-                ArticleId = ArticleId,
-                StorageId = StorageId
-            });
-
-            return true;
+            throw new NotImplementedException();
         }
 
         public bool DeleteArticle(Article Article)

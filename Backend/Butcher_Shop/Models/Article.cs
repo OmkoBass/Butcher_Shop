@@ -9,8 +9,6 @@ namespace Butcher_Shop.Models
 {
     public class Article
     {
-        public Article() => this.StorageArticles = new HashSet<StorageArticle>();
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -20,6 +18,8 @@ namespace Butcher_Shop.Models
         [MaxLength(64)]
         public string Name { get; set; }
 
-        public virtual ICollection<StorageArticle> StorageArticles { get; set; }
+        [Required]
+        public int StorageId { get; set; }
+        public virtual Storage Storage { get; set; }
     }
 }
