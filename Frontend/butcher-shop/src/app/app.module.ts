@@ -24,12 +24,13 @@ import { MatListModule } from '@angular/material/list';
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatTableModule } from "@angular/material/table";
+import { MatTabsModule } from "@angular/material/tabs";
 import { ButcherStoreComponent } from './butcher-store/butcher-store.component';
 import { HomeComponent } from './home/home.component';
 import { EditEmployeeDialogComponent } from './edit-employee-dialog/edit-employee-dialog.component';
 import { MatRadioModule } from "@angular/material/radio";
 import { EmployeesComponent } from './employees/employees.component';
+import { SearchPipe } from './pipes/searchPipe/search.pipe';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { EmployeesComponent } from './employees/employees.component';
     HomeComponent,
     EditEmployeeDialogComponent,
     EmployeesComponent,
+    SearchPipe,
   ],
   imports: [
     HttpClientModule,
@@ -64,7 +66,7 @@ import { EmployeesComponent } from './employees/employees.component';
     MatProgressSpinnerModule,
     MatDialogModule,
     MatRadioModule,
-    MatTableModule
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
