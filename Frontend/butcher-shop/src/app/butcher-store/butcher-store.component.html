@@ -16,44 +16,56 @@
         </h2>
     </div>
 
-    <h3>
-        Number of employees: {{ butcherStore.employees.length }}
-    </h3>
-    
-    <mat-divider></mat-divider>
+    <mat-tab-group>
+        <mat-tab label="Employees">
 
-    <div *ngFor="let employee of butcherStore.employees"  style="margin-top: 2em;">
-        <mat-card>
-            <mat-card-header>
-              <img mat-card-avatar src="../../assets/employee_64.png"/>
+            <mat-form-field style="width: 100%; margin-top: 1em;">
+                <mat-label>Search Employees</mat-label>
+                <input matInput [ngModel]="searchValue" type="text" (ngModelChange)="handleSearch($event)">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
 
-                <mat-card-title>
-                    {{ employee.name }} {{ employee.lastname }}
-                </mat-card-title>
-                <mat-card-subtitle>
-                    {{ employee.job === 0 ? 'Cashier' : 'Administration' }}
-                </mat-card-subtitle>
-            </mat-card-header>
-
-            <mat-card-content>
-                <h4>
-                    Address: {{ employee.address }}
-                </h4>
-                <h4>
-                    sex: {{ employee.sex ? 'Male' : 'Female' }}
-                </h4>
-            </mat-card-content>
-
-            <mat-card-actions>
-                <button mat-raised-button color="primary"
-                    (click)="handleOpenEditDialog(employee)"
-                >Edit</button>
-                <button mat-raised-button color="warn">Delete</button>
-            </mat-card-actions>
-        </mat-card>
-
-        <mat-divider></mat-divider>
-    </div>
+            <h1>
+                Number of employees: {{ butcherStore.employees.length }}
+            </h1>
+            
+            <div  *ngFor="let employee of butcherStore.employees | search : searchValue "  style="margin-top: 2em;">
+                <mat-card>
+                    <mat-card-header>
+                      <img mat-card-avatar src="../../assets/employee_64.png"/>
+        
+                        <mat-card-title>
+                            {{ employee.name }} {{ employee.lastname }}
+                        </mat-card-title>
+                        <mat-card-subtitle>
+                            {{ employee.job === 0 ? 'Cashier' : 'Administration' }}
+                        </mat-card-subtitle>
+                    </mat-card-header>
+        
+                    <mat-card-content>
+                        <h4>
+                            Address: {{ employee.address }}
+                        </h4>
+                        <h4>
+                            sex: {{ employee.sex ? 'Male' : 'Female' }}
+                        </h4>
+                    </mat-card-content>
+        
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary"
+                            (click)="handleOpenEditDialog(employee)"
+                        >Edit</button>
+                        <button mat-raised-button color="warn">Delete</button>
+                    </mat-card-actions>
+                </mat-card>
+        
+                <mat-divider></mat-divider>
+            </div>
+        </mat-tab>
+        <mat-tab label="Articles">
+            
+        </mat-tab>
+    </mat-tab-group>
 </div>
 <ng-template #showLoading>
     <div style="width: 100%; height: 100%;" class="super-center">

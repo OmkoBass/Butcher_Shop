@@ -14,6 +14,7 @@ import { Location } from "@angular/common";
 export class ButcherStoreComponent implements OnInit {
   loading = true;
   butcherStore = null;
+  searchValue = null;
 
   constructor(private butcherStoreService: ButcherStoreService, private router: Router, private snackBar: MatSnackBar, public dialog: MatDialog, private location: Location) { }
 
@@ -34,6 +35,10 @@ export class ButcherStoreComponent implements OnInit {
 
   handleGoBack() {
     this.location.back();
+  }
+
+  handleSearch(value) {
+    this.searchValue = value
   }
 
   handleOpenEditDialog(employee) {
