@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ButcherService } from '../services/butcherService/butcherService/butcher-service.service';
+import { ButcherService } from '../services/butcherService/butcher-service.service';
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from '@angular/router';
 

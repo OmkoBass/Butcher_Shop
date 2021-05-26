@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ButcherService } from '../services/butcherService/butcherService/butcher-service.service';
+import { ButcherService } from "../services/butcherService/butcher-service.service";
 
 @Component({
   selector: 'app-dashboard',
