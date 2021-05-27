@@ -1,9 +1,19 @@
 <div *ngIf="!loading; else showLoading"
         class="container"
       >
-        <h1>
-          Dashboard
-        </h1>
+        <div style="display: flex; justify-content: space-between;">
+          <h1>
+            Dashboard
+          </h1>  
+
+          <button
+            mat-raised-button 
+            color="primary"
+            (click)="handleOpenAddButcherStoreDialog()"
+          >
+            New Butcher Store 
+          </button>
+        </div>
 
         <mat-divider></mat-divider>
 
@@ -37,6 +47,12 @@
               <button mat-raised-button color="primary"
               routerLink="/butcherStore/{{ butcherStore.id }}"
               >View</button>
+
+              <button mat-raised-button color="warn"
+                (click)="handleDeleteStore(butcherStore.id)"
+              >
+                Delete Store
+              </button>
             </mat-card-actions>
           </mat-card>
 
