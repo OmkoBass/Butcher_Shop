@@ -2,6 +2,8 @@
 using Butcher_Shop.Data;
 using Butcher_Shop.Dtos;
 using Butcher_Shop.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,7 @@ namespace Butcher_Shop.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ButcherStoreController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -59,7 +62,10 @@ namespace Butcher_Shop.Controllers
         {
             if(ModelState.IsValid)
             {
+                int ButcherStoreId = int.Parse(User.FindFirst("Id").Value);
+
                 var AddedButcherStore = _mapper.Map<ButcherStore>(ButcherStore);
+                AddedButcherStore.ButcherId = ButcherStoreId;
 
                 await _unitOfWork.IButcherStoreRepo.AddButcherStore(AddedButcherStore);
                 await _unitOfWork.Complete();
