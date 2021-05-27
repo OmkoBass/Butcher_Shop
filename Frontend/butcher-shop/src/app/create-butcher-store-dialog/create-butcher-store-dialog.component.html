@@ -1,0 +1,44 @@
+<h1> Add Butcher Store </h1>
+<form
+    [formGroup]="addButcherStoreForm"
+    style="display: flex; flex-direction: column; margin-top: 2em"
+    (ngSubmit)="handleSubmit(addButcherStoreForm)"
+>
+    <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input type="text" matInput formControlName="name" />
+
+        <mat-error *ngIf="name?.touched && name?.invalid"> That doesn't seem right </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Address</mat-label>
+        <input type="text" matInput formControlName="address" />
+
+        <mat-error *ngIf="address?.touched && address?.invalid"> That doesn't seem right </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Area</mat-label>
+        <input type="number" matInput formControlName="area" />
+
+        <mat-error *ngIf="area?.touched && area?.invalid"> That doesn't seem right </mat-error>
+    </mat-form-field>
+
+    <button
+        mat-raised-button
+        color="primary"
+    >
+        Add Butcher Store
+    </button>
+    <button
+        mat-raised-button
+        [disabled]="addButcherStoreForm.invalid || submitting"
+        (click)="handleCloseDialog()"
+        color="danger"
+        type="button"
+        style="margin-top: 1em;"
+    >
+        Close
+    </button>
+</form>
