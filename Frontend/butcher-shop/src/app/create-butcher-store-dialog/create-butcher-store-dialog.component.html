@@ -27,13 +27,14 @@
 
     <button
         mat-raised-button
+        [disabled]="addButcherStoreForm.invalid || submitting"
         color="primary"
     >
         Add Butcher Store
     </button>
     <button
         mat-raised-button
-        [disabled]="addButcherStoreForm.invalid || submitting"
+        [disabled]="submitting"
         (click)="handleCloseDialog()"
         color="danger"
         type="button"
