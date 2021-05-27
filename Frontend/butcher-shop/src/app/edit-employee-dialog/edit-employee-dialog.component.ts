@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { EmployeeService } from '../services/employeeService/employee-service.service';
 
 @Component({
   selector: 'app-edit-employee-dialog',
@@ -9,9 +11,10 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 })
 export class EditEmployeeDialogComponent implements OnInit {
   employeeForm: FormGroup;
+  submitting = false;
 
-  constructor(private formBuilder: FormBuilder, public dialogRef : MatDialogRef<EditEmployeeDialogComponent>, @Inject(MAT_DIALOG_DATA) public employee) { }
-
+  constructor(private formBuilder: FormBuilder, public dialogRef : MatDialogRef<EditEmployeeDialogComponent>, @Inject(MAT_DIALOG_DATA) public employee, private employeeService: EmployeeService, private snackBar: MatSnackBar) { }
+  
   ngOnInit(): void {
     this.employeeForm = this.formBuilder.group({
       name: [
@@ -48,14 +51,44 @@ export class EditEmployeeDialogComponent implements OnInit {
         ]
       ],
       sex: [
-        this.employee.sex,
+        this.employee.sex === true ? true : false,
         Validators.required
       ]
     });
   }
 
   handleSubmit(form) {
-    console.log(form.value);
+    this.submitting = true;
+
+    let sex = false;
+    
+    if(form.value.sex === 'true' || form.value.sex === true) {
+      sex = true;
+    }
+
+    const employee = {...form.value, butcherStoreId: this.employee.butcherStoreId, sex: sex}
+
+    if(this.employee.new) {
+      this.employeeService.CreateEmployee(employee)
+      .subscribe(res => {
+        this.dialogRef.close({ data: res });
+        this.snackBar.open('Employee added!', 'Okay!');
+        this.submitting = false;
+      }, () => {
+        this.snackBar.open('Something went wrong!', 'Okay!');
+        this.submitting = false;
+      });
+    } else {
+      this.employeeService.UpdateEmployee(this.employee.id, employee)
+      .subscribe(res => {
+        this.dialogRef.close({ data: res });
+        this.snackBar.open('Employee updated!', 'Okay!');
+        this.submitting = false;
+      }, () => {
+        this.snackBar.open('Something went wrong!', 'Okay!');
+        this.submitting = false;
+      });
+    }
   }
 
   closeDialog() {

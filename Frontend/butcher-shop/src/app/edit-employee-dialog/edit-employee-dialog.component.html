@@ -1,5 +1,11 @@
 <h3>
-    Edit employee
+    {{
+        employee.new
+        ?
+        'Add Employee'
+        :
+        'Edit employee'
+    }}
 </h3>
 <form [formGroup]="employeeForm"
 style="display: flex; flex-direction: column; margin-top: 2em"
@@ -35,23 +41,30 @@ style="display: flex; flex-direction: column; margin-top: 2em"
     </mat-form-field>
 
     <mat-radio-group aria-label="Select an option" formControlName="sex">
-        <mat-radio-button [value]="employee.sex === true">Male</mat-radio-button>
+        <mat-radio-button [checked]="employee.sex" value="true">Male</mat-radio-button>
         <br>
-        <mat-radio-button style="margin-top: 1em;" [value]="employee.sex === false">Female</mat-radio-button>
+        <mat-radio-button style="margin-top: 1em;" [checked]="!employee.sex" value="false">Female</mat-radio-button>
     </mat-radio-group>
 
     <mat-dialog-actions align="end">
         <button
-            [disabled]="!employeeForm.valid"
+            [disabled]="!employeeForm.valid || submitting"
             style="margin-top: 1em;"
             mat-raised-button
             color="primary"
         >
-            Save
+            {{
+                employee.new
+                ?
+                'Add Employee'
+                :
+                'Save'
+            }}
         </button>
 
         <button
             style="margin-top: 1em;"
+            [disabled]="submitting"
             mat-button
             type="button"
             color="primary"

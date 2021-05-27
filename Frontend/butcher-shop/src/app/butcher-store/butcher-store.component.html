@@ -18,16 +18,19 @@
 
     <mat-tab-group>
         <mat-tab label="Employees">
-
+            <button
+                style="margin-top: 1em"
+                mat-raised-button
+                color="primary"
+                (click)="handleShowAddEmployeeDialog()"
+            >
+                Add Employee
+            </button>
             <mat-form-field style="width: 100%; margin-top: 1em;">
                 <mat-label>Search Employees</mat-label>
                 <input matInput [ngModel]="searchValue" type="text" (ngModelChange)="handleSearch($event)">
                 <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
-
-            <h1>
-                Number of employees: {{ butcherStore.employees.length }}
-            </h1>
             
             <div  *ngFor="let employee of butcherStore.employees | search : searchValue "  style="margin-top: 2em;">
                 <mat-card>
@@ -55,11 +58,14 @@
                         <button mat-raised-button color="primary"
                             (click)="handleOpenEditDialog(employee)"
                         >Edit</button>
-                        <button mat-raised-button color="warn">Delete</button>
+                        <button
+                            [disabled]="submitting"
+                            mat-raised-button
+                            color="warn"
+                            (click)="handleDeleteEmployee(employee.id)"
+                        >Delete</button>
                     </mat-card-actions>
                 </mat-card>
-        
-                <mat-divider></mat-divider>
             </div>
         </mat-tab>
         <mat-tab label="Articles">
