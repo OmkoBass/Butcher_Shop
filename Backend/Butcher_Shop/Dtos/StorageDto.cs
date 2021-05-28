@@ -13,5 +13,6 @@ namespace Butcher_Shop.Dtos
         public string Address { get; set; }
         public int Area { get; set; }
         public int ButcherStoreId { get; set; }
+        public ICollection<ArticleDto> Articles { get; set; }
     }
 }
