@@ -9,6 +9,12 @@ export class StorageService {
 
   constructor(private http: HttpClient) { }
 
+  GetStorageById(id: string) {
+    let headers = new HttpHeaders().set("Authorization", localStorage.getItem('beefyToken'));
+
+    return this.http.get<any>(`${this.url}/:id?Id=${id}`, { headers });
+  }
+
   CreateStorage(storage) {
     let headers = new HttpHeaders().set("Authorization", localStorage.getItem('beefyToken'));
 
