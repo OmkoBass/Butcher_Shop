@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
     })
     .afterClosed()
     .subscribe(res => {
-      if(res !== null) {
+      if(res) {
         this.butcher.butcherStores.push(res.data);
       }
     });
