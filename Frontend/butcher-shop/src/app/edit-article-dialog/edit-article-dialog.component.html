@@ -1,0 +1,48 @@
+<h3>
+    {{
+        article.new
+        ?
+        'Add Article'
+        :
+        'Edit Article'
+    }}
+</h3>
+<form [formGroup]="articleForm"
+style="display: flex; flex-direction: column; margin-top: 2em"
+(ngSubmit)="handleSubmit(articleForm)"
+>
+    <mat-form-field appearance="outline">
+        <mat-label> Name </mat-label>
+        <input matInput formControlName="name" required />
+
+        <mat-error *ngIf="name?.touched && name?.invalid"> That's not a legal name </mat-error>
+    </mat-form-field>
+    
+    <mat-dialog-actions align="end">
+        <button
+            [disabled]="!articleForm.valid || submitting"
+            style="margin-top: 1em;"
+            mat-raised-button
+            color="primary"
+        >
+            {{
+                article.new
+                ?
+                'Add Article'
+                :
+                'Save'
+            }}
+        </button>
+
+        <button
+            style="margin-top: 1em;"
+            [disabled]="submitting"
+            mat-button
+            type="button"
+            color="primary"
+            (click)="closeDialog()"
+        >
+            Close
+        </button>
+    </mat-dialog-actions>
+</form>
