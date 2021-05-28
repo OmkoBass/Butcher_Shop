@@ -101,6 +101,11 @@
                         <button 
                             mat-raised-button 
                             color="primary"
+                            routerLink="/storage/{{ storage.id }}"
+                        >View Articles</button>
+                        <button
+                            mat-raised-button 
+                            color="primary"
                             (click)="handleOpenEditStorageDialog(storage)"
                         >Edit</button>
                         <button
