@@ -13,7 +13,13 @@ export class EditEmployeeDialogComponent implements OnInit {
   employeeForm: FormGroup;
   submitting = false;
 
-  constructor(private formBuilder: FormBuilder, public dialogRef : MatDialogRef<EditEmployeeDialogComponent>, @Inject(MAT_DIALOG_DATA) public employee, private employeeService: EmployeeService, private snackBar: MatSnackBar) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    public dialogRef : MatDialogRef<EditEmployeeDialogComponent>, 
+    @Inject(MAT_DIALOG_DATA) public employee, 
+    private employeeService: EmployeeService, 
+    private snackBar: MatSnackBar
+    ) { }
   
   ngOnInit(): void {
     this.employeeForm = this.formBuilder.group({
@@ -66,7 +72,7 @@ export class EditEmployeeDialogComponent implements OnInit {
       sex = true;
     }
 
-    const employee = {...form.value, butcherStoreId: this.employee.butcherStoreId, sex: sex}
+    const employee = {...form.value, butcherStoreId: this.employee.butcherStoreId, sex: sex, id: this.employee.id}
 
     if(this.employee.new) {
       this.employeeService.CreateEmployee(employee)
