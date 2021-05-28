@@ -4,10 +4,16 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'search'
 })
 export class SearchPipe implements PipeTransform {
-  transform(array: any, searchBy: string): any {
+  transform(array: any, objectType: string, searchBy: string,): any {
     if(searchBy) {
-      return array.filter(element => element.name.includes(searchBy));
-    } return array;
+      if(objectType === 'employee') {
+        return array.filter(element => element.name.includes(searchBy));
+      } else if(objectType === 'storage') {
+        return array.filter(element => element.address.includes(searchBy));
+      }
+    }
+    
+    return array;
   }
 
 }
