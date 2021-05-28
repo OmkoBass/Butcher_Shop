@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Butcher_Shop.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Butcher_Shop.Dtos;
 
 namespace Butcher_Shop.Controllers
 {
@@ -41,7 +42,7 @@ namespace Butcher_Shop.Controllers
 
             if (Storage != null)
             {
-                return Ok(Storage);
+                return Ok(_mapper.Map<StorageDto>(Storage));
             }
 
             return NotFound(new { Message = $"Storage with Id:{Id} not found." });
