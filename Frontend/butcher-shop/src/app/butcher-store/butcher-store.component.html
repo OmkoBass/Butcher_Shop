@@ -32,7 +32,7 @@
                 <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
             
-            <div  *ngFor="let employee of butcherStore.employees | search : 'employee' : searchValue "  style="margin-top: 2em;">
+            <div  *ngFor="let employee of butcherStore.employees | search : 'name' : searchValue "  style="margin-top: 2em;">
                 <mat-card>
                     <mat-card-header>
                       <img mat-card-avatar src="../../assets/employee_64.png"/>
@@ -83,7 +83,7 @@
                 <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
 
-            <div  *ngFor="let storage of butcherStore.storages | search : 'storage' : searchStorageValue"  style="margin-top: 2em;">
+            <div  *ngFor="let storage of butcherStore.storages | search : 'address' : searchStorageValue"  style="margin-top: 2em;">
                 <mat-card>
                     <mat-card-header>
                       <img mat-card-avatar src="../../assets/storage_64.png"/>
