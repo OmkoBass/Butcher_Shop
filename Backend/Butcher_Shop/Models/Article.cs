@@ -21,5 +21,8 @@ namespace Butcher_Shop.Models
         [Required]
         public int StorageId { get; set; }
         public virtual Storage Storage { get; set; }
+
+        public int? CustomerId { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }
