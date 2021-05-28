@@ -32,6 +32,7 @@ import { MatRadioModule } from "@angular/material/radio";
 import { EmployeesComponent } from './employees/employees.component';
 import { SearchPipe } from './pipes/searchPipe/search.pipe';
 import { CreateButcherStoreDialogComponent } from './create-butcher-store-dialog/create-butcher-store-dialog.component';
+import { EditStorageDialogComponent } from './edit-storage-dialog/edit-storage-dialog.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { CreateButcherStoreDialogComponent } from './create-butcher-store-dialog
     EmployeesComponent,
     SearchPipe,
     CreateButcherStoreDialogComponent,
+    EditStorageDialogComponent,
   ],
   imports: [
     HttpClientModule,
