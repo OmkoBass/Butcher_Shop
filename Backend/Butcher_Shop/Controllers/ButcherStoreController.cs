@@ -51,7 +51,7 @@ namespace Butcher_Shop.Controllers
 
             if (ButcherStore != null)
             {
-                return Ok(ButcherStore);
+                return Ok(_mapper.Map<ButcherStoreDto>(ButcherStore));
             }
 
             return NotFound(new { Message = $"Butcher Store with Id:{Id} not found." });
