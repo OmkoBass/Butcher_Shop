@@ -45,7 +45,7 @@ namespace Butcher_Shop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ArticleDto Article)
+        public async Task<IActionResult> Post([FromBody] AddArticleDto Article)
         {
             if (ModelState.IsValid)
             {
@@ -61,7 +61,7 @@ namespace Butcher_Shop.Controllers
         }
 
         [HttpPut(":id")]
-        public async Task<IActionResult> Put(int Id, [FromBody] ArticleDto Article)
+        public async Task<IActionResult> Put(int Id, [FromBody] AddArticleDto Article)
         {
             if (!ModelState.IsValid)
             {
@@ -75,7 +75,7 @@ namespace Butcher_Shop.Controllers
                 return NotFound(new { Message = $"Article with Id:{Id} not found." });
             }
 
-            _mapper.Map<ArticleDto, Article>(Article, OldArticle);
+            _mapper.Map<AddArticleDto, Article>(Article, OldArticle);
 
             await _unitOfWork.Complete();
 
@@ -97,27 +97,5 @@ namespace Butcher_Shop.Controllers
 
             return NotFound(new { Message = $"Article with Id:{Id} not found." });
         }
-
-        //[HttpPost]
-        //[Route("/addToStorage/:StorageId")]
-        //public async Task<IActionResult> AddToStorage(int StorageId, ArticleDto Article)
-        //{
-        //    var FoundStorage = await _unitOfWork.IStorageRepo.GetStorage(StorageId);
-
-        //    if (ModelState.IsValid && FoundStorage != null)
-        //    {
-        //        var AddedArticle = _mapper.Map<Article>(Article);
-
-        //        await _unitOfWork.IArticleRepo.AddArticle(AddedArticle);
-        //        await _unitOfWork.Complete();
-
-        //        await _unitOfWork.IArticleRepo.AddToStorage(AddedArticle.Id, FoundStorage.Id);
-        //        await _unitOfWork.Complete();
-
-        //        return Ok(AddedArticle);
-        //    }
-
-        //    return BadRequest(new { Message = "Invalid info!" });
-        //}
     }
 }
