@@ -31,7 +31,7 @@ namespace Butcher_Shop.Data.ButcherStoreRepo
 
         public async Task<ButcherStore> GetButcherStore(int Id)
         {
-            return await _context.ButcherStores.Include(bs => bs.Employees).FirstOrDefaultAsync(i => i.Id == Id);
+            return await _context.ButcherStores.Include(bs => bs.Employees).Include(bs => bs.Storages).FirstOrDefaultAsync(i => i.Id == Id);
         }
 
         public async Task<List<ButcherStore>> GetButcherStoresByButcher(int ButcherId)
