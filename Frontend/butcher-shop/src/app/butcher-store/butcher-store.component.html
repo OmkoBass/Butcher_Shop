@@ -68,8 +68,50 @@
                 </mat-card>
             </div>
         </mat-tab>
-        <mat-tab label="Articles">
-            
+        <mat-tab label="Storages">
+            <button
+            style="margin-top: 1em"
+            mat-raised-button
+            color="primary"
+            (click)="handleShowAddStorageDialog()"
+            >
+                Add Storage
+            </button>
+            <mat-form-field style="width: 100%; margin-top: 1em;">
+                <mat-label>Search Storages</mat-label>
+                <input matInput [ngModel]="searchStorageValue" type="text" (ngModelChange)="handleSearchStorage($event)">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+
+            <div  *ngFor="let storage of butcherStore.storages | search : searchValue "  style="margin-top: 2em;">
+                <mat-card>
+                    <mat-card-header>
+                      <img mat-card-avatar src="../../assets/storage_64.png"/>
+        
+                        <mat-card-title>
+                            {{ storage.address }}
+                        </mat-card-title>
+                    </mat-card-header>
+        
+                    <mat-card-content>
+                        Area: {{ storage.area }}
+                    </mat-card-content>
+        
+                    <mat-card-actions>
+                        <button 
+                            mat-raised-button 
+                            color="primary"
+                            (click)="handleOpenEditStorageDialog(storage)"
+                        >Edit</button>
+                        <button
+                            [disabled]="submitting"
+                            mat-raised-button
+                            color="warn"
+                            (click)="handleDeleteStorage(storage.id)"
+                        >Delete</button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
         </mat-tab>
     </mat-tab-group>
 </div>

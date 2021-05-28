@@ -6,6 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditEmployeeDialogComponent } from '../edit-employee-dialog/edit-employee-dialog.component';
 import { Location } from "@angular/common";
 import { EmployeeService } from '../services/employeeService/employee-service.service';
+import { EditStorageDialogComponent } from '../edit-storage-dialog/edit-storage-dialog.component';
+import { StorageService } from '../services/storageService/storage.service';
 
 @Component({
   selector: 'app-butcher-store',
@@ -17,8 +19,17 @@ export class ButcherStoreComponent implements OnInit {
   butcherStore = null;
   searchValue = null;
   submitting = false;
+  searchStorageValue = null;
 
-  constructor(private butcherStoreService: ButcherStoreService, private employeeService: EmployeeService, private router: Router, private snackBar: MatSnackBar, public dialog: MatDialog, private location: Location) { }
+  constructor(
+    private butcherStoreService: ButcherStoreService,
+    private storageService: StorageService,
+    private employeeService: EmployeeService, 
+    private router: Router, 
+    private snackBar: MatSnackBar, 
+    public dialog: MatDialog, 
+    private location: Location
+    ) { }
 
   ngOnInit(): void {
     // I'm gonna do it like this
@@ -41,6 +52,10 @@ export class ButcherStoreComponent implements OnInit {
 
   handleSearch(value) {
     this.searchValue = value
+  }
+
+  handleSearchStorage(value) {
+    this.searchStorageValue = value;
   }
 
   handleOpenEditDialog(employee) {
@@ -98,6 +113,61 @@ export class ButcherStoreComponent implements OnInit {
     }, () => {
       this.snackBar.open('Something went wrong!', 'Okay!');
       this.submitting = false;
+    });
+  }
+
+  handleDeleteStorage(id: string) {
+    this.submitting = true;
+    this.storageService.DeleteStorage(id)
+    .subscribe(_ => {
+      this.butcherStore.storages = this.butcherStore.storages.filter(storage => storage.id !== id);
+      this.snackBar.open('Storage deleted!', 'Okay!');
+      this.submitting = false;
+    }, () => {
+      this.snackBar.open('Something went wrong!', 'Okay!');
+      this.submitting = false;
+    });
+  }
+
+  handleShowAddStorageDialog() {
+    this.dialog.open(EditStorageDialogComponent, {
+      data: {
+        new: true,
+        butcherStoreId: this.butcherStore.id
+      },
+      width: '60%',
+      minWidth: '320px'
+    })
+    .afterClosed()
+    .subscribe(res => {
+      if(res) {
+        this.butcherStore.storages = [...this.butcherStore.storages, res.data];
+      }
+    });
+  }
+
+  handleOpenEditStorageDialog(storage) {
+    this.dialog.open(EditStorageDialogComponent, {
+      data: {
+        id: storage.id,
+        address: storage.address,
+        area: storage.area,
+        butcherStoreId: this.butcherStore.id
+      },
+      width: '60%',
+      minWidth: '320px'
+    })
+    .afterClosed()
+    .subscribe(res => {
+      if(res) {
+        this.butcherStore.storages = this.butcherStore.storages.map(storage => {
+          if(storage.id === res.data.id) {
+            return res.data;
+          }
+  
+          return storage;
+        });
+      }
     });
   }
 }
