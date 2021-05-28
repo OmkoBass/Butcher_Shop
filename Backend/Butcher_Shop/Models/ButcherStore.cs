@@ -11,6 +11,7 @@ namespace Butcher_Shop.Models
     {
         public ButcherStore() {
             this.Employees = new HashSet<Employee>();
+            this.Storages = new HashSet<Storage>();
             this.Customers = new HashSet<Customer>();
         }
 
@@ -35,6 +36,7 @@ namespace Butcher_Shop.Models
         public int ButcherId { get; set; }
         public virtual Butcher Butcher { get; set; }
         public ICollection<Employee> Employees { get; set; }
+        public ICollection<Storage> Storages { get; set; }
         public ICollection<Customer> Customers { get; set; }
     }
 }

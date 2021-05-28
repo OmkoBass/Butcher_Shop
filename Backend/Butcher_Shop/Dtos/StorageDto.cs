@@ -13,6 +13,5 @@ namespace Butcher_Shop.Dtos
         public string Address { get; set; }
         public int Area { get; set; }
         public int ButcherStoreId { get; set; }
-        public virtual ButcherStoreDto ButcherStore { get; set; }
     }
 }

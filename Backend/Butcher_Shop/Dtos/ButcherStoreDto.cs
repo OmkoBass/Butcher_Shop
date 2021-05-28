@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Butcher_Shop.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,5 +13,7 @@ namespace Butcher_Shop.Dtos
         public string Address { get; set; }
         public int Area { get; set; }
         public ICollection<EmployeeDto> Employees { get; set; }
+        public ICollection<StorageDto> Storages { get; set; }
+        public ICollection<Customer> Customers { get; set; }
     }
 }
