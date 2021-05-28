@@ -32,7 +32,7 @@ namespace Butcher_Shop.Data.StorageRepo
 
         public async Task<Storage> GetStorage(int Id)
         {
-            return await _context.Storages.FirstOrDefaultAsync(i => i.Id == Id);
+            return await _context.Storages.Include(s => s.Articles).FirstOrDefaultAsync(i => i.Id == Id);
         }
 
         public bool UpdateStorage(Storage Storage)
