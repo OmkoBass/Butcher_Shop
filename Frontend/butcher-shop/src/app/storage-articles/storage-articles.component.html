@@ -1,0 +1,65 @@
+<div *ngIf="!loading else showLoading"
+    class="container"
+>
+    <div style="display:flex; flex-direction: row;">
+        <button mat-icon-button (click)="handleGoBack()">
+            <mat-icon aria-hidden="false" aria-label="keyboard_backspace">keyboard_backspace</mat-icon>
+        </button>
+        <h1>
+            {{ storage.address }}
+        </h1>
+
+        <h2 style="margin: 0 1em">
+            Area: {{ storage.area }}
+        </h2>
+    </div>
+    
+    <button
+        style="margin-top: 1em"
+        mat-raised-button
+        color="primary"
+        (click)="handleShowAddEmployeeDialog()"
+    >
+        Add Article
+    </button>
+
+    <mat-form-field style="width: 100%; margin-top: 1em;">
+        <mat-label>Search Articles</mat-label>
+        <input matInput [ngModel]="searchStorageValue" type="text" (ngModelChange)="handleSearch($event)">
+        <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <div  *ngFor="let article of storage.articles | search : 'name' : searchStorageValue"  style="margin-top: 2em;">
+        <mat-card>
+            <mat-card-header>
+                <img mat-card-avatar src="../../assets/meat_64.png"/>
+
+                <mat-card-title>
+                    {{ article.name }}
+                </mat-card-title>
+            </mat-card-header>
+
+            <mat-card-actions>
+                <button 
+                    [disabled]="submitting"
+                    mat-raised-button 
+                    color="primary"
+                    (click)="handleOpenEditDialog(article)"
+                >
+                Edit
+                </button>
+                <button
+                    [disabled]="submitting"
+                    mat-raised-button
+                    color="warn"
+                    (click)="handleDeleteArticle(article.id)"
+                >Delete</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>
+<ng-template #showLoading>
+    <div style="width: 100%; height: 100%;" class="super-center">
+      <mat-spinner></mat-spinner>
+    </div>
+</ng-template>
