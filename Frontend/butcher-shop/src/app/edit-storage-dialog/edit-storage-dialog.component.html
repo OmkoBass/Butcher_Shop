@@ -1,0 +1,57 @@
+<h3>
+    {{
+        storage.new
+        ?
+        'Add Storage'
+        :
+        'Edit Storage'
+    }}
+</h3>
+<form [formGroup]="storageForm"
+style="display: flex; flex-direction: column; margin-top: 2em"
+(ngSubmit)="handleSubmit(storageForm)"
+>
+    <mat-form-field appearance="outline">
+        <mat-label> Address </mat-label>
+        <input matInput formControlName="address" required />
+
+        <mat-error *ngIf="address?.touched && address?.invalid"> That's not a legal address </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Area</mat-label>
+        <input type="number" matInput formControlName="area" required />
+
+        <mat-error *ngIf="area?.touched && area?.invalid"> That doesn't seem right </mat-error>
+    </mat-form-field>
+    
+    <mat-dialog-actions align="end">
+        <button
+            [disabled]="!storageForm.valid || submitting"
+            style="margin-top: 1em;"
+            mat-raised-button
+            color="primary"
+        >
+            {{
+                storage.new
+                ?
+                'Add Storage'
+                :
+                'Save'
+            }}
+        </button>
+
+        <button
+            style="margin-top: 1em;"
+            [disabled]="submitting"
+            mat-button
+            type="button"
+            color="primary"
+            (click)="closeDialog()"
+        >
+            Close
+        </button>
+    </mat-dialog-actions>
+</form>
+
+
