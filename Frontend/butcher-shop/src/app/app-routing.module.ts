@@ -7,6 +7,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { StorageArticlesComponent } from './storage-articles/storage-articles.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
       {
         path: 'butcherStore/:butcherStoreId',
         component: ButcherStoreComponent
+      },
+      {
+        path: 'storage/:storageId',
+        component: StorageArticlesComponent
       }
     ]
   },
