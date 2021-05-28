@@ -33,6 +33,8 @@ import { EmployeesComponent } from './employees/employees.component';
 import { SearchPipe } from './pipes/searchPipe/search.pipe';
 import { CreateButcherStoreDialogComponent } from './create-butcher-store-dialog/create-butcher-store-dialog.component';
 import { EditStorageDialogComponent } from './edit-storage-dialog/edit-storage-dialog.component';
+import { StorageArticlesComponent } from './storage-articles/storage-articles.component';
+import { EditArticleDialogComponent } from './edit-article-dialog/edit-article-dialog.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { EditStorageDialogComponent } from './edit-storage-dialog/edit-storage-d
     SearchPipe,
     CreateButcherStoreDialogComponent,
     EditStorageDialogComponent,
+    StorageArticlesComponent,
+    EditArticleDialogComponent,
   ],
   imports: [
     HttpClientModule,
