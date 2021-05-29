@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
       this.butcher = res;
       this.loading = false;
     }, _ => {
+      this.loading = false;
       this.snackBar.open('Something went wrong!', 'Okay!');
     });
   }
