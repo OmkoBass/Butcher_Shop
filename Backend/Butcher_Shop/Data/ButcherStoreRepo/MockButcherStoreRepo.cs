@@ -35,7 +35,6 @@ namespace Butcher_Shop.Data.ButcherStoreRepo
                 .Include(bs => bs.Employees)
                 .Include(bs => bs.Storages)
                 .Include(bs => bs.Customers)
-                .ThenInclude(c => c.BoughtArticles)
                 .FirstOrDefaultAsync(i => i.Id == Id);
         }
 
