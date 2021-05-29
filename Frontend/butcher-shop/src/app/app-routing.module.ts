@@ -7,6 +7,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 import { StorageArticlesComponent } from './storage-articles/storage-articles.component';
 
 const routes: Routes = [
@@ -18,6 +19,10 @@ const routes: Routes = [
       {
         path: '',
         component: HomeComponent
+      },
+      {
+        path: 'statistics',
+        component: StatisticsComponent
       },
       {
         path: 'butcherStore/:butcherStoreId',
