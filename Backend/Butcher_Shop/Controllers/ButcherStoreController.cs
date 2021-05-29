@@ -44,6 +44,58 @@ namespace Butcher_Shop.Controllers
             return Ok(ButcherStores);
         }
 
+        [HttpGet("complete/butcherStores")]
+        public async Task<IActionResult> GetCompleteButcherStores()
+        {
+            var Id = Int32.Parse(User.FindFirst("Id").Value);
+
+            var ButcherStores = await _unitOfWork.IButcherStoreRepo.GetButcherStoresByButcher(Id, true, true);
+
+            int ButcherStoresCount = ButcherStores.Count;
+            int EmployeeCount = 0;
+            int StorageCount = 0;
+            int CustomerCount = 0;
+            int ArticleCount = 0;
+
+            foreach(ButcherStore bs in ButcherStores)
+            {
+                EmployeeCount += bs.Employees.Count;
+                StorageCount += bs.Storages.Count;
+                CustomerCount += bs.Customers.Count;
+
+                foreach(Storage s in bs.Storages)
+                    ArticleCount += s.Articles.Count;
+            }
+
+            return Ok(new Object[] {
+                new
+                {
+                    Name = "butcherStores",
+                    Value = ButcherStoresCount
+                },
+                new
+                {
+                    Name = "employees",
+                    Value = EmployeeCount
+                },
+                new
+                {
+                    Name = "storages",
+                    Value = StorageCount
+                },
+                new
+                {
+                    Name = "customers",
+                    Value = CustomerCount
+                },
+                new
+                {
+                    Name = "articles",
+                    Value = ArticleCount
+                },
+            });
+        }
+
         [HttpGet(":id")]
         public async Task<IActionResult> Get(int Id)
         {
