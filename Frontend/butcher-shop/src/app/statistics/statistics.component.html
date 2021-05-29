@@ -1,0 +1,59 @@
+<div *ngIf="!loading else showLoading"
+    class="container"
+>
+    <div>
+        <h1>
+            Statistics
+        </h1>
+
+        <mat-divider></mat-divider>
+
+        <h2 style="text-align: center;">
+            Total number of Butcher Stores: {{ butcherStores.value }}
+        </h2>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; text-align: center;">
+            <h2>
+                Total number of Employees: {{ employees.value }}
+            </h2>
+
+            <h2>
+                Total number of Storages: {{ storages.value }}
+            </h2>  
+            
+            <h2>
+                Total number of Customers: {{ customers.value }}
+            </h2>
+    
+            <h2>
+                Total number of Articles: {{ articles.value }}
+            </h2>
+
+            <h2>
+                {{ storages.value }} Storages contain all the articles.
+            </h2>
+            
+            <h2>
+                {{ (articles.value / total) | percent: '1.1' }} of the items we store are articles
+            </h2>
+        </div>
+    </div>
+
+    <div
+        style="display: flex; justify-content: center"
+    >
+        <ngx-charts-pie-grid
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="stats"
+        >
+        </ngx-charts-pie-grid>
+    </div>
+    
+</div>
+
+<ng-template #showLoading>
+    <div style="width: 100%; height: 100%;" class="super-center">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>
