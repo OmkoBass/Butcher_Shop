@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Butcher_Shop.Data;
 using Butcher_Shop.Dtos;
+using Butcher_Shop.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -98,6 +99,28 @@ namespace Butcher_Shop.Controllers
             }
 
             return BadRequest(new { Message = "Invalid info!" });
+        }
+
+        [HttpPut(":id")]
+        public async Task<IActionResult> Put(int Id, [FromBody] AddCustomerDto Customer)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { Message = "Invalid info!" });
+            }
+
+            var OldCustomer = await _unitOfWork.ICustomerRepo.GetCustomer(Id);
+
+            if (OldCustomer == null)
+            {
+                return NotFound(new { Message = $"Customer with Id:{Id} not found." });
+            }
+
+            _mapper.Map<AddCustomerDto, Customer>(Customer, OldCustomer);
+
+            await _unitOfWork.Complete();
+
+            return Ok(_mapper.Map<CustomerDto>(OldCustomer));
         }
 
         [HttpDelete(":id")]
