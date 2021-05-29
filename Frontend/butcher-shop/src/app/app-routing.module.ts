@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ButcherStoreComponent } from './butcher-store/butcher-store.component';
+import { CustomerArticlesComponent } from './customer-articles/customer-articles.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EmployeesComponent } from './employees/employees.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -30,6 +31,10 @@ const routes: Routes = [
       {
         path: 'storage/:storageId',
         component: StorageArticlesComponent
+      },
+      {
+        path: 'customer/:customerId',
+        component: CustomerArticlesComponent
       }
     ]
   },
