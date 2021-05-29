@@ -36,6 +36,7 @@ import { EditStorageDialogComponent } from './edit-storage-dialog/edit-storage-d
 import { StorageArticlesComponent } from './storage-articles/storage-articles.component';
 import { EditArticleDialogComponent } from './edit-article-dialog/edit-article-dialog.component';
 import { EditCustomerDialogComponent } from './edit-customer-dialog/edit-customer-dialog.component';
+import { CustomerArticlesComponent } from './customer-articles/customer-articles.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { EditCustomerDialogComponent } from './edit-customer-dialog/edit-custome
     StorageArticlesComponent,
     EditArticleDialogComponent,
     EditCustomerDialogComponent,
+    CustomerArticlesComponent,
   ],
   imports: [
     HttpClientModule,
