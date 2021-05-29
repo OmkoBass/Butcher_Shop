@@ -2,6 +2,7 @@
 using Butcher_Shop.Data.AuthRepo;
 using Butcher_Shop.Data.ButcherRepo;
 using Butcher_Shop.Data.ButcherStoreRepo;
+using Butcher_Shop.Data.CustomerRepo;
 using Butcher_Shop.Data.EmployeeRepo;
 using Butcher_Shop.Data.StorageRepo;
 using System;
@@ -19,6 +20,7 @@ namespace Butcher_Shop.Data
         IStorageRepo IStorageRepo { get; set; }
         IAuthRepo IAuthRepo { get; set; }
         IEmployeeRepo IEmployeeRepo { get; set; }
+        ICustomerRepo ICustomerRepo { get; set; }
 
         Task<bool> Complete();
     }

@@ -2,6 +2,7 @@
 using Butcher_Shop.Data.AuthRepo;
 using Butcher_Shop.Data.ButcherRepo;
 using Butcher_Shop.Data.ButcherStoreRepo;
+using Butcher_Shop.Data.CustomerRepo;
 using Butcher_Shop.Data.EmployeeRepo;
 using Butcher_Shop.Data.StorageRepo;
 using System;
@@ -20,6 +21,7 @@ namespace Butcher_Shop.Data
         public IStorageRepo IStorageRepo { get; set; }
         public IAuthRepo IAuthRepo { get; set; }
         public IEmployeeRepo IEmployeeRepo { get; set; }
+        public ICustomerRepo ICustomerRepo { get; set; }
 
         public MockUnitOfWork(DatabaseContext context, 
             IButcherRepo butcherRepo,
@@ -27,7 +29,8 @@ namespace Butcher_Shop.Data
             IArticleRepo articleRepo,
             IStorageRepo storageRepo,
             IAuthRepo authRepo,
-            IEmployeeRepo employeeRepo
+            IEmployeeRepo employeeRepo,
+            ICustomerRepo customerRepo
             )
         {
             _context = context;
@@ -37,6 +40,7 @@ namespace Butcher_Shop.Data
             IStorageRepo = storageRepo;
             IAuthRepo = authRepo;
             IEmployeeRepo = employeeRepo;
+            ICustomerRepo = customerRepo;
         }
 
         public async Task<bool> Complete()

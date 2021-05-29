@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Butcher_Shop.Data.AuthRepo;
+using Butcher_Shop.Data.CustomerRepo;
 
 namespace Butcher_Shop
 {
@@ -56,6 +57,7 @@ namespace Butcher_Shop
             services.AddScoped<IStorageRepo, MockStorageRepo>();
             services.AddScoped<IArticleRepo, MockArticleRepo>();
             services.AddScoped<IEmployeeRepo, MockEmployeeRepo>();
+            services.AddScoped<ICustomerRepo, MockCustomerRepo>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
