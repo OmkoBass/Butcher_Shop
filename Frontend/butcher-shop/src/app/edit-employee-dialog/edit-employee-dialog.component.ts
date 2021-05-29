@@ -47,7 +47,6 @@ export class EditEmployeeDialogComponent implements OnInit {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(64),
-          Validators.pattern(/^\D{3,64}$/)
         ]
       ],
       job: [
