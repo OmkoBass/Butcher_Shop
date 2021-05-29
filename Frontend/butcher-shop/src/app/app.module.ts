@@ -29,7 +29,6 @@ import { ButcherStoreComponent } from './butcher-store/butcher-store.component';
 import { HomeComponent } from './home/home.component';
 import { EditEmployeeDialogComponent } from './edit-employee-dialog/edit-employee-dialog.component';
 import { MatRadioModule } from "@angular/material/radio";
-import { EmployeesComponent } from './employees/employees.component';
 import { SearchPipe } from './pipes/searchPipe/search.pipe';
 import { CreateButcherStoreDialogComponent } from './create-butcher-store-dialog/create-butcher-store-dialog.component';
 import { EditStorageDialogComponent } from './edit-storage-dialog/edit-storage-dialog.component';
@@ -47,7 +46,6 @@ import { CustomerArticlesComponent } from './customer-articles/customer-articles
     ButcherStoreComponent,
     HomeComponent,
     EditEmployeeDialogComponent,
-    EmployeesComponent,
     SearchPipe,
     CreateButcherStoreDialogComponent,
     EditStorageDialogComponent,
