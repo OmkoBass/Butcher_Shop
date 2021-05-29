@@ -29,6 +29,7 @@ namespace Butcher_Shop.Models
         [MaxLength(64)]
         public string Address { get; set; }
 
+        [Required]
         [Range(0, Int32.MaxValue)]
         public int Area { get; set; }
 

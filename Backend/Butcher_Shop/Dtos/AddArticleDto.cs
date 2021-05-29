@@ -14,6 +14,10 @@ namespace Butcher_Shop.Dtos
         public string Name { get; set; }
 
         [Required]
+        [Range(0, Int32.MaxValue)]
+        public int Price { get; set; }
+
+        [Required]
         public int StorageId { get; set; }
     }
 }

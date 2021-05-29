@@ -13,6 +13,10 @@ namespace Butcher_Shop.Dtos
 
         public string Name { get; set; }
 
+        public int Price { get; set; }
+
+        public int CustomerId { get; set; }
+
         public int StorageId { get; set; }
     }
 }
