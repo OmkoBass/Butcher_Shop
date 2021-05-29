@@ -30,7 +30,7 @@
     </mat-form-field>
 
     <div  *ngFor="let article of storage.articles | search : 'name' : searchStorageValue"  style="margin-top: 2em;">
-        <mat-card>
+        <mat-card *ngIf="article.customerId == null || article.customerId == 0">
             <mat-card-header>
                 <img mat-card-avatar src="../../assets/meat_64.png"/>
 
@@ -39,21 +39,35 @@
                 </mat-card-title>
             </mat-card-header>
 
+            <mat-card-content>
+                The price of {{ article.name }} is {{ article.price | currency : 'RSD' }}
+            </mat-card-content>
+
             <mat-card-actions>
+                <button
+                    [disabled]="submitting"
+                    mat-raised-button
+                    color="primary"
+                    (click)="handleOpenAddCustomerDialog(article.id)"
+                >
+                    Sell
+                </button>
                 <button 
                     [disabled]="submitting"
                     mat-raised-button 
                     color="primary"
                     (click)="handleOpenEditDialog(article)"
                 >
-                Edit
+                    Edit
                 </button>
                 <button
                     [disabled]="submitting"
                     mat-raised-button
                     color="warn"
                     (click)="handleDeleteArticle(article.id)"
-                >Delete</button>
+                >
+                    Delete
+                </button>
             </mat-card-actions>
         </mat-card>
     </div>

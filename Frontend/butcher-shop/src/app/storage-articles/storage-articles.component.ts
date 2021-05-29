@@ -6,6 +6,7 @@ import { StorageService } from '../services/storageService/storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EditArticleDialogComponent } from '../edit-article-dialog/edit-article-dialog.component';
 import { ArticleService } from '../services/articleService/article.service';
+import { EditCustomerDialogComponent } from '../edit-customer-dialog/edit-customer-dialog.component';
 
 @Component({
   selector: 'app-storage-articles',
@@ -32,7 +33,6 @@ export class StorageArticlesComponent implements OnInit {
 
       this.storageService.GetStorageById(urlParam)
       .subscribe(res => {
-        console.log(res);
         this.storage = res;
         this.loading = false;
       }, () => {
@@ -46,6 +46,7 @@ export class StorageArticlesComponent implements OnInit {
       data: {
         id: article.id,
         name: article.name,
+        price: article.price,
         storageId: this.storage.id
       },
       width: '60%',
@@ -92,6 +93,24 @@ export class StorageArticlesComponent implements OnInit {
     }, () => {
       this.snackBar.open('Something went wrong!', 'Okay!');
       this.submitting = false;
+    });
+  }
+
+  handleOpenAddCustomerDialog(articleId: string) {
+    this.dialog.open(EditCustomerDialogComponent, {
+      data: {
+        new: true,
+        butcherStoreId: this.storage.butcherStoreId,
+        articleId: articleId
+      },
+      width: '60%',
+      minWidth: '320px'
+    })
+    .afterClosed()
+    .subscribe(res => {
+      if(res) {
+        this.storage.articles = this.storage.articles.filter(article => article.id !== res.data.id);
+      }
     });
   }
 
