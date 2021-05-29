@@ -29,6 +29,7 @@ import { ButcherStoreComponent } from './butcher-store/butcher-store.component';
 import { HomeComponent } from './home/home.component';
 import { EditEmployeeDialogComponent } from './edit-employee-dialog/edit-employee-dialog.component';
 import { MatRadioModule } from "@angular/material/radio";
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { SearchPipe } from './pipes/searchPipe/search.pipe';
 import { CreateButcherStoreDialogComponent } from './create-butcher-store-dialog/create-butcher-store-dialog.component';
 import { EditStorageDialogComponent } from './edit-storage-dialog/edit-storage-dialog.component';
@@ -36,6 +37,7 @@ import { StorageArticlesComponent } from './storage-articles/storage-articles.co
 import { EditArticleDialogComponent } from './edit-article-dialog/edit-article-dialog.component';
 import { EditCustomerDialogComponent } from './edit-customer-dialog/edit-customer-dialog.component';
 import { CustomerArticlesComponent } from './customer-articles/customer-articles.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +55,7 @@ import { CustomerArticlesComponent } from './customer-articles/customer-articles
     EditArticleDialogComponent,
     EditCustomerDialogComponent,
     CustomerArticlesComponent,
+    StatisticsComponent,
   ],
   imports: [
     HttpClientModule,
@@ -76,7 +79,8 @@ import { CustomerArticlesComponent } from './customer-articles/customer-articles
     MatProgressSpinnerModule,
     MatDialogModule,
     MatRadioModule,
-    MatTabsModule
+    MatTabsModule,
+    NgxChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
