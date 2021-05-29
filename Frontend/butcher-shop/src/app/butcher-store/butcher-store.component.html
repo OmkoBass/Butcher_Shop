@@ -70,10 +70,10 @@
         </mat-tab>
         <mat-tab label="Storages">
             <button
-            style="margin-top: 1em"
-            mat-raised-button
-            color="primary"
-            (click)="handleShowAddStorageDialog()"
+                style="margin-top: 1em"
+                mat-raised-button
+                color="primary"
+                (click)="handleShowAddStorageDialog()"
             >
                 Add Storage
             </button>
@@ -113,6 +113,50 @@
                             mat-raised-button
                             color="warn"
                             (click)="handleDeleteStorage(storage.id)"
+                        >Delete</button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </mat-tab>
+        <mat-tab label="Customers">
+            <mat-form-field style="width: 100%; margin-top: 1em;">
+                <mat-label>Search Customers</mat-label>
+                <input matInput [ngModel]="searchCustomersValue" type="text" (ngModelChange)="handleSearchCustomers($event)">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+
+            <div  *ngFor="let customer of butcherStore.customers | search : 'name' : searchCustomersValue"  style="margin-top: 2em;">
+                <mat-card>
+                    <mat-card-header>
+
+                        <img *ngIf="customer.sex === true" mat-card-avatar src="../../assets/customer_man.png"/>
+                        <img *ngIf="customer.sex === false" mat-card-avatar src="../../assets/customer_woman.png"/>
+        
+                        <mat-card-title>
+                            {{ customer.name }} {{ customer.lastname }}
+                        </mat-card-title>
+                    </mat-card-header>
+        
+                    <mat-card-content>
+                        Address: {{ customer.address }}
+                    </mat-card-content>
+        
+                    <mat-card-actions>
+                        <button 
+                            mat-raised-button 
+                            color="primary"
+                            routerLink="/customer/{{ customer.id }}"
+                        >View Articles</button>
+                        <button
+                            mat-raised-button 
+                            color="primary"
+                            (click)="handleOpenEditCustomerDialog(customer)"
+                        >Edit</button>
+                        <button
+                            [disabled]="submitting"
+                            mat-raised-button
+                            color="warn"
+                            (click)="handleDeleteCustomer(customer.id)"
                         >Delete</button>
                     </mat-card-actions>
                 </mat-card>

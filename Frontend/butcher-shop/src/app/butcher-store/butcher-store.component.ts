@@ -8,6 +8,8 @@ import { Location } from "@angular/common";
 import { EmployeeService } from '../services/employeeService/employee-service.service';
 import { EditStorageDialogComponent } from '../edit-storage-dialog/edit-storage-dialog.component';
 import { StorageService } from '../services/storageService/storage.service';
+import { CustomerService } from '../services/customerService/customer.service';
+import { EditCustomerDialogComponent } from '../edit-customer-dialog/edit-customer-dialog.component';
 
 @Component({
   selector: 'app-butcher-store',
@@ -20,11 +22,13 @@ export class ButcherStoreComponent implements OnInit {
   searchValue = null;
   submitting = false;
   searchStorageValue = null;
+  searchCustomersValue = null;
 
   constructor(
     private butcherStoreService: ButcherStoreService,
     private storageService: StorageService,
     private employeeService: EmployeeService, 
+    private customerService: CustomerService,
     private router: Router, 
     private snackBar: MatSnackBar, 
     public dialog: MatDialog, 
@@ -56,6 +60,10 @@ export class ButcherStoreComponent implements OnInit {
 
   handleSearchStorage(value) {
     this.searchStorageValue = value;
+  }
+
+  handleSearchCustomers(value) {
+    this.searchCustomersValue = value;
   }
 
   handleOpenEditDialog(employee) {
@@ -168,6 +176,46 @@ export class ButcherStoreComponent implements OnInit {
           return storage;
         });
       }
+    });
+  }
+
+  handleOpenEditCustomerDialog(customer) {
+    this.dialog.open(EditCustomerDialogComponent, {
+      data: {
+        id: customer.id,
+        name: customer.name,
+        lastname: customer.lastname,
+        address: customer.address,
+        sex: customer.sex,
+        butcherStoreId: this.butcherStore.id
+      },
+      width: '60%',
+      minWidth: '320px'
+    })
+    .afterClosed()
+    .subscribe(res => {
+      if(res) {
+        this.butcherStore.customers = this.butcherStore.customers.map(customer => {
+          if(customer.id === res.data.id) {
+            return res.data;
+          }
+  
+          return customer;
+        });
+      }
+    });
+  }
+
+  handleDeleteCustomer(id: string) {
+    this.submitting = true;
+    this.customerService.DeleteCustomer(id)
+    .subscribe(_ => {
+      this.butcherStore.customers = this.butcherStore.customers.filter(customer => customer.id !== id);
+      this.snackBar.open('Customer Deleted!', 'Okay!');
+      this.submitting = false;
+    }, () => {
+      this.snackBar.open('Something went wrong!', 'Okay!');
+      this.submitting = false;
     });
   }
 }
