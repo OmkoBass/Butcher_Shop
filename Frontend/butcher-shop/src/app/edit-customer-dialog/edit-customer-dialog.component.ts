@@ -40,7 +40,7 @@ export class EditCustomerDialogComponent implements OnInit {
         ]
       ],
       address: [
-        this.customer.sex,
+        this.customer.address,
         [
           Validators.required,
           Validators.minLength(3),
@@ -75,7 +75,15 @@ export class EditCustomerDialogComponent implements OnInit {
         this.snackBar.open('Something went wrong!', 'Okay!');
       });
     } else {
-
+      this.customerService.UpdateCustomer(this.customer.id, customer)
+      .subscribe(res => {
+        this.dialogRef.close({ data: res });
+        this.snackBar.open('Customer Updated!', 'Okay!');
+        this.submitting = false;
+      }, () => {
+        this.snackBar.open('Something went wrong!', 'Okay!');
+        this.submitting = false;
+      });
     }
   }
 
