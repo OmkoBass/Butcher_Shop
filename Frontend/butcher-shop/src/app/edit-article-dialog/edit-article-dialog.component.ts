@@ -30,6 +30,13 @@ export class EditArticleDialogComponent implements OnInit {
           Validators.minLength(3),
           Validators.maxLength(64),
         ]
+      ],
+      price: [
+        this.article.price,
+        [
+          Validators.required,
+          Validators.min(1)
+        ]
       ]
     });
   }
@@ -68,5 +75,9 @@ export class EditArticleDialogComponent implements OnInit {
 
   get name() {
     return this.articleForm.get('name');
+  }
+
+  get price() {
+    return this.articleForm.get('price');
   }
 }

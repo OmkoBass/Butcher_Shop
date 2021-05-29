@@ -18,6 +18,13 @@ style="display: flex; flex-direction: column; margin-top: 2em"
         <mat-error *ngIf="name?.touched && name?.invalid"> That's not a legal name </mat-error>
     </mat-form-field>
     
+    <mat-form-field appearance="outline">
+        <mat-label> Price </mat-label>
+        <input matInput type="number" formControlName="price" required />
+
+        <mat-error *ngIf="price?.touched && price?.invalid"> Invalid price </mat-error>
+    </mat-form-field>
+
     <mat-dialog-actions align="end">
         <button
             [disabled]="!articleForm.valid || submitting"
