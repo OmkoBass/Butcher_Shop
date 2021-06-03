@@ -35,8 +35,9 @@
             <div  *ngFor="let employee of butcherStore.employees | search : 'name' : searchValue "  style="margin-top: 2em;">
                 <mat-card>
                     <mat-card-header>
-                      <img mat-card-avatar src="../../assets/employee_64.png"/>
-        
+                        <img *ngIf="employee.sex" mat-card-avatar src="../../assets/employee_64.png"/>
+                        <img *ngIf="!employee.sex" mat-card-avatar src="../../assets/employee_woman.png"/>
+
                         <mat-card-title>
                             {{ employee.name }} {{ employee.lastname }}
                         </mat-card-title>
