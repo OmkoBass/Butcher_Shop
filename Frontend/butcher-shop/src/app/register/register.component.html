@@ -51,30 +51,6 @@ style="width: 100%; height: 100%; background-color: lightgray"
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <button
-        mat-icon-button
-        matSuffix
-        type="button"
-        (click)="repeatPasswordVisible = !repeatPasswordVisible"
-      >
-        <mat-icon>{{
-          repeatPasswordVisible ? "visibility_off" : "visibility"
-        }}</mat-icon>
-      </button>
-
-      <mat-label>Repeat password</mat-label>
-      <input
-        [type]="repeatPasswordVisible ? 'text' : 'password'"
-        matInput
-        formControlName="repeatPassword"
-      />
-
-      <mat-error *ngIf="repeatPassword?.touched">
-        Passwords don't match!
-      </mat-error>
-    </mat-form-field>
-
     <div>
       <mat-checkbox formControlName="terms">
         Agree to the terms

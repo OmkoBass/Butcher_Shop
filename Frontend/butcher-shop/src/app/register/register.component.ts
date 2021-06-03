@@ -11,7 +11,6 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   passwordVisible = false;
-  repeatPasswordVisible = false;
   passwordValue = '';
   submitting = false;
 
@@ -42,12 +41,6 @@ export class RegisterComponent implements OnInit {
           Validators.maxLength(64)
         ]
       ],
-      repeatPassword: [
-        '',
-        [
-          Validators.required,
-        ]
-      ],
       terms: [
         false,
         [
@@ -71,10 +64,6 @@ export class RegisterComponent implements OnInit {
 
   get password() {
     return this.registerForm.get('password');
-  }
-
-  get repeatPassword() {
-    return this.registerForm.get('repeatPassword');
   }
 
   get terms() {
